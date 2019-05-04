@@ -1,2 +1,2 @@
-# MyMeds
+# Pills
 Medication management android application.
