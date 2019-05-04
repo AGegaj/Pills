@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Pills</string>
+    <string name="title_home">Today</string>
+    <string name="title_pillbox">Pillbox</string>
+</resources>
