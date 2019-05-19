@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
+import fragment.QuantityFragment;
 import fragment.TimePickerFragment;
 
 public class AddMedicament extends AppCompatActivity {
@@ -34,6 +35,7 @@ public class AddMedicament extends AppCompatActivity {
     private Spinner spnReminder;
     public static Button timePicker;
     private TextView scheduleDate;
+    public Button quantity;
 
     DatePickerDialog datePickerDialog;
     int year;
@@ -52,6 +54,15 @@ public class AddMedicament extends AppCompatActivity {
         spnReminder = findViewById(R.id.spinner_reminder);
         scheduleDate = findViewById(R.id.scheduleDate);
         timePicker = findViewById(R.id.timePicker);
+        quantity = findViewById(R.id.quantity);
+
+        quantity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuantityFragment dialogQuantity = new QuantityFragment();
+                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
+            }
+        });
 
 
         spnReminder.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
