@@ -2,4 +2,7 @@
     <string name="app_name">Pills</string>
     <string name="title_home">Today</string>
     <string name="title_pillbox">Pillbox</string>
+    <string name="btnAdd">DONE</string>
+    <string name="hint_name">Type ingredient or brand name</string>
+    <string name="err_msg_name">Name must not be null!</string>
 </resources>
