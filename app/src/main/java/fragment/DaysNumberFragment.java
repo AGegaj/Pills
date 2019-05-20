@@ -2,7 +2,6 @@ package fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import org.jetbrains.annotations.Nullable;
 import org.unipr.pills.R;
 
 public class DaysNumberFragment extends DialogFragment {
@@ -37,6 +37,8 @@ public class DaysNumberFragment extends DialogFragment {
         plus = view.findViewById(R.id.plusDay);
         cancel = view.findViewById(R.id.cancelDay);
         set = view.findViewById(R.id.set);
+
+        inputNumber.setEnabled(false);
 
         text = inputNumber.getText().toString();
         value = Integer.parseInt(text);

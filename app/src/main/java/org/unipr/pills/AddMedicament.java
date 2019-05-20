@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
+import fragment.DaysIntervalFragment;
 import fragment.DaysNumberFragment;
 import fragment.QuantityFragment;
 import fragment.TimePickerFragment;
@@ -39,6 +40,7 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
     private TextView scheduleDate;
     private Button quantity;
     private RadioButton numbOfDay;
+    private RadioButton intervalDays;
 
     DatePickerDialog datePickerDialog;
     int year;
@@ -62,6 +64,15 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
         timePicker = findViewById(R.id.timePicker);
         quantity = findViewById(R.id.quantity);
         numbOfDay = findViewById(R.id.numberOfDays);
+        intervalDays = findViewById(R.id.daysInterval);
+
+        intervalDays.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DaysIntervalFragment intervalFragment = new DaysIntervalFragment();
+                intervalFragment.show(getSupportFragmentManager(), "DaysIntervalFragment");
+            }
+        });
 
         numbOfDay.setOnClickListener(new View.OnClickListener() {
             @Override
