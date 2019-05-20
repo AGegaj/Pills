@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -23,10 +24,11 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
+import fragment.DaysNumberFragment;
 import fragment.QuantityFragment;
 import fragment.TimePickerFragment;
 
-public class AddMedicament extends AppCompatActivity {
+public class AddMedicament extends AppCompatActivity implements QuantityFragment.OnInputListener{
 
     private Toolbar toolbar;
     private EditText inputName;
@@ -35,7 +37,8 @@ public class AddMedicament extends AppCompatActivity {
     private Spinner spnReminder;
     public static Button timePicker;
     private TextView scheduleDate;
-    public Button quantity;
+    private Button quantity;
+    private RadioButton numbOfDay;
 
     DatePickerDialog datePickerDialog;
     int year;
@@ -45,6 +48,9 @@ public class AddMedicament extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_medicament);
         inputName = findViewById(R.id.input_name);
@@ -55,11 +61,23 @@ public class AddMedicament extends AppCompatActivity {
         scheduleDate = findViewById(R.id.scheduleDate);
         timePicker = findViewById(R.id.timePicker);
         quantity = findViewById(R.id.quantity);
+        numbOfDay = findViewById(R.id.numberOfDays);
+
+        numbOfDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DaysNumberFragment dayNumbFragment = new DaysNumberFragment();
+                dayNumbFragment.show(getSupportFragmentManager(), "DaysNumberFragment");
+            }
+        });
 
         quantity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 QuantityFragment dialogQuantity = new QuantityFragment();
+                Bundle data = new Bundle();
+                data.putString("quantity", quantity.getText().toString().split(" ")[1]);
+                dialogQuantity.setArguments(data);
                 dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
             }
         });
@@ -119,6 +137,7 @@ public class AddMedicament extends AppCompatActivity {
 
     }
 
+
     private void submitForm() {
         if (!validateName()) {
             return;
@@ -148,6 +167,14 @@ public class AddMedicament extends AppCompatActivity {
     public void showTimePickerDialog(View view) {
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getSupportFragmentManager(), "timePicker");
+    }
+
+    @Override
+    public void sendInput(String input) {
+        String mInput = input;
+
+        quantity.setText(mInput);
+
     }
 
     private class MyTextWatcher implements TextWatcher {

@@ -5,15 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="30dp">
+    android:paddingLeft="20dp">
 
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/numberOfDays"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Select quantity"
+        android:text="Set number of days"
         android:layout_marginStart="40dp"
         android:textColor="@android:color/black"
         android:textSize="16sp"
@@ -22,7 +22,7 @@
         tools:layout_editor_absoluteX="52dp" />
 
     <ImageButton
-        android:id="@+id/minus"
+        android:id="@+id/minusDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="34dp"
@@ -30,21 +30,22 @@
         android:background="@null"
         android:tint="@color/colorPrimary"
         android:src="@drawable/minus"
-        app:layout_constraintEnd_toStartOf="@+id/inputDialogQuantity"
+        app:layout_constraintEnd_toStartOf="@+id/inputNumberOfDays"
         app:layout_constraintHorizontal_bias="0.888"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/numberOfDays"
         android:contentDescription="TODO" />
 
     <EditText
-        android:id="@+id/inputDialogQuantity"
+        android:id="@+id/inputNumberOfDays"
         android:layout_width="45sp"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="8dp"
         android:textColor="@color/colorPrimary"
-        android:inputType="numberDecimal"
-        android:text="1.00"
+        android:inputType="number"
+        android:text="1"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.479"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +53,7 @@
         android:autofillHints="" />
 
     <ImageButton
-        android:id="@+id/plus"
+        android:id="@+id/plusDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -62,11 +63,11 @@
         android:tint="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toEndOf="@+id/inputDialogQuantity"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
+        app:layout_constraintStart_toEndOf="@+id/inputNumberOfDays"
+        app:layout_constraintTop_toTopOf="@+id/numberOfDays" />
 
     <TextView
-        android:id="@+id/cancel"
+        android:id="@+id/cancelDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -75,25 +76,25 @@
         android:text="CANCEL"
         android:textColor="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/inputDialogQuantity"
-        app:layout_constraintTop_toBottomOf="@+id/inputDialogQuantity"
+        app:layout_constraintStart_toEndOf="@+id/inputNumberOfDays"
+        app:layout_constraintTop_toBottomOf="@+id/inputNumberOfDays"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/ok"
+        android:id="@+id/set"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="68dp"
         android:layout_marginTop="28dp"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="8dp"
-        android:text="OK"
+        android:text="SET"
         android:textColor="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/plus"
-        app:layout_constraintTop_toBottomOf="@+id/inputDialogQuantity"
+        app:layout_constraintStart_toEndOf="@+id/plusDay"
+        app:layout_constraintTop_toBottomOf="@+id/inputNumberOfDays"
         app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>
