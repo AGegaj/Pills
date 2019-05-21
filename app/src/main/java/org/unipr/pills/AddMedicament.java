@@ -26,6 +26,7 @@ import java.util.Calendar;
 
 import fragment.DaysIntervalFragment;
 import fragment.DaysNumberFragment;
+import fragment.DaysPickerFragment;
 import fragment.QuantityFragment;
 import fragment.TimePickerFragment;
 
@@ -41,6 +42,7 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
     private Button quantity;
     private RadioButton numbOfDay;
     private RadioButton intervalDays;
+    private RadioButton rdbDayPicker;
 
     DatePickerDialog datePickerDialog;
     int year;
@@ -65,6 +67,15 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
         quantity = findViewById(R.id.quantity);
         numbOfDay = findViewById(R.id.numberOfDays);
         intervalDays = findViewById(R.id.daysInterval);
+        rdbDayPicker = findViewById(R.id.specificDays);
+
+        rdbDayPicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DaysPickerFragment daysPicker = new DaysPickerFragment();
+                daysPicker.show(getSupportFragmentManager(), "DaysPickerFragment");
+            }
+        });
 
         intervalDays.setOnClickListener(new View.OnClickListener() {
             @Override
