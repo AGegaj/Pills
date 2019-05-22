@@ -10,9 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -31,6 +29,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     int month;
     int dayOfMonth;
     Calendar calendar;
+    String[] monthName = {"Jan", "Feb",
+            "Mar", "Apr", "May", "Jun", "Jul",
+            "Aug", "Sep", "Oct", "Nov",
+            "Dec"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +48,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
         navigation.setOnNavigationItemSelectedListener(this);
-        toolbar.setSubtitle("No meds");
-        setSupportActionBar(toolbar);
 
         selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                                 date.setText(day + "/" + (month + 1) + "/" + year);
+                                selectDate.setText(monthName[month] +" "+ day);
+
                             }
                         }, year, month, dayOfMonth);
 //                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
