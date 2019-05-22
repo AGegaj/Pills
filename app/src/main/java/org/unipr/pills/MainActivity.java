@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     BottomNavigationView navigation;
     Toolbar toolbar;
     TextView selectDate;
-    TextView date;
     DatePickerDialog datePickerDialog;
     int year;
     int month;
@@ -44,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         navigation = findViewById(R.id.bottom_navigation);
         toolbar = findViewById(R.id.toolbar);
         selectDate = findViewById(R.id.btnDate);
-        date = findViewById(R.id.tvSelectedDate);
 
 
         navigation.setOnNavigationItemSelectedListener(this);
@@ -60,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                                date.setText(day + "/" + (month + 1) + "/" + year);
                                 selectDate.setText(monthName[month] +" "+ day);
 
                             }
