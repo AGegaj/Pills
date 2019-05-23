@@ -1,7 +1,10 @@
 package adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +12,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.unipr.pills.PillActivity;
 import org.unipr.pills.R;
 
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import fragment.PillboxFragment;
 
 public class PillboxAdapter extends RecyclerView.Adapter<PillboxAdapter.ViewHolder> {
 
@@ -42,6 +47,16 @@ public class PillboxAdapter extends RecyclerView.Adapter<PillboxAdapter.ViewHold
     public void onBindViewHolder(@NonNull PillboxAdapter.ViewHolder holder, final int position) {
         holder.tvPillName.setText(pillNameData.get(position));
         holder.imgPillPhoto.setImageResource(R.drawable.capsule);
+
+        holder.pillbox_items_parent_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppCompatActivity activity = (AppCompatActivity) v.getContext();
+                Intent intent = new Intent(activity, PillActivity.class);
+                context.startActivity(intent);
+
+            }
+        });
     }
 
     @Override
