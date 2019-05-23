@@ -23,6 +23,7 @@ public class PillActivity extends AppCompatActivity {
         toolbarPill = findViewById(R.id.toolbarPill);
 
         setSupportActionBar(toolbarPill);
+        getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         final Drawable arrow = getResources().getDrawable(R.drawable.back);
