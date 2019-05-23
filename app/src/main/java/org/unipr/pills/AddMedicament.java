@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import fragment.DaysIntervalFragment;
 import fragment.DaysNumberFragment;
 import fragment.DaysPickerFragment;
@@ -49,6 +50,7 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
     int month;
     int dayOfMonth;
     Calendar calendar;
+    CircleImageView imgCapsule, imgTablet, imgLiquid, imgInjection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +70,38 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
         numbOfDay = findViewById(R.id.numberOfDays);
         intervalDays = findViewById(R.id.daysInterval);
         rdbDayPicker = findViewById(R.id.specificDays);
+        imgCapsule = findViewById(R.id.imgCapsule);
+        imgTablet = findViewById(R.id.imgTablet);
+        imgLiquid = findViewById(R.id.imgLiquid);
+        imgInjection = findViewById(R.id.imgInjection);
+
+        imgCapsule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setBorder(imgCapsule);
+            }
+        });
+
+        imgTablet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setBorder(imgTablet);
+            }
+        });
+
+        imgInjection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setBorder(imgInjection);
+            }
+        });
+
+        imgLiquid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setBorder(imgLiquid);
+            }
+        });
 
         rdbDayPicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,6 +193,57 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
 
     }
 
+    public void setBorder(CircleImageView img){
+        switch (img.getId()){
+            case R.id.imgCapsule:
+                imgCapsule.setBorderColor(getColor(R.color.colorAccent));
+                imgCapsule.setBorderWidth(3);
+                imgCapsule.setCircleBackgroundColor(getColor(R.color.colorAccent));
+                imgTablet.setBorderWidth(0);
+                imgLiquid.setBorderWidth(0);
+                imgInjection.setBorderWidth(0);
+                imgTablet.setCircleBackgroundColor(255);
+                imgInjection.setCircleBackgroundColor(255);
+                imgLiquid.setCircleBackgroundColor(255);
+                break;
+
+            case R.id.imgTablet:
+                imgTablet.setBorderColor(getColor(R.color.colorAccent));
+                imgTablet.setBorderWidth(3);
+                imgTablet.setCircleBackgroundColor(getColor(R.color.colorAccent));
+                imgCapsule.setBorderWidth(0);
+                imgLiquid.setBorderWidth(0);
+                imgInjection.setBorderWidth(0);
+                imgCapsule.setCircleBackgroundColor(255);
+                imgInjection.setCircleBackgroundColor(255);
+                imgLiquid.setCircleBackgroundColor(255);
+                break;
+
+            case R.id.imgInjection:
+                imgInjection.setBorderColor(getColor(R.color.colorAccent));
+                imgInjection.setBorderWidth(3);
+                imgInjection.setCircleBackgroundColor(getColor(R.color.colorAccent));
+                imgTablet.setBorderWidth(0);
+                imgLiquid.setBorderWidth(0);
+                imgCapsule.setBorderWidth(0);
+                imgTablet.setCircleBackgroundColor(255);
+                imgCapsule.setCircleBackgroundColor(255);
+                imgLiquid.setCircleBackgroundColor(255);
+                break;
+
+            case R.id.imgLiquid:
+                imgLiquid.setBorderColor(getColor(R.color.colorAccent));
+                imgLiquid.setBorderWidth(3);
+                imgLiquid.setCircleBackgroundColor(getColor(R.color.colorAccent));
+                imgTablet.setBorderWidth(0);
+                imgCapsule.setBorderWidth(0);
+                imgInjection.setBorderWidth(0);
+                imgTablet.setCircleBackgroundColor(255);
+                imgInjection.setCircleBackgroundColor(255);
+                imgCapsule.setCircleBackgroundColor(255);
+                break;
+        }
+    }
 
     private void submitForm() {
         if (!validateName()) {

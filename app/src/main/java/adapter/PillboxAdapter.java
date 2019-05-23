@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.unipr.pills.R;
@@ -52,7 +52,7 @@ public class PillboxAdapter extends RecyclerView.Adapter<PillboxAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView tvPillName;
         CircleImageView imgPillPhoto;
-        RelativeLayout pillbox_items_parent_layout;
+        LinearLayout pillbox_items_parent_layout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

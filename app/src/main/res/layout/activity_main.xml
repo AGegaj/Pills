@@ -11,8 +11,8 @@
 
 
     <include
-        layout="@layout/toolbar"
-        android:id="@+id/toolbar"/>
+    layout="@layout/toolbar"
+    android:id="@+id/toolbar"/>
 
 
     <FrameLayout

@@ -1,5 +1,6 @@
 package org.unipr.pills;
 
+import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -11,10 +12,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Calendar;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import fragment.HomeFragment;
 import fragment.PillboxFragment;
 
@@ -24,11 +27,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     Toolbar toolbar;
     TextView selectDate;
     DatePickerDialog datePickerDialog;
+    ImageView imgSelectDate;
     int year;
     int month;
     int dayOfMonth;
     Calendar calendar;
-    String[] monthName = {"Jan", "Feb",
+    public static String[] monthName = {"Jan", "Feb",
             "Mar", "Apr", "May", "Jun", "Jul",
             "Aug", "Sep", "Oct", "Nov",
             "Dec"};
@@ -43,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         navigation = findViewById(R.id.bottom_navigation);
         toolbar = findViewById(R.id.toolbar);
         selectDate = findViewById(R.id.btnDate);
+        imgSelectDate = findViewById(R.id.imgSelectDate);
+        setSupportActionBar(toolbar);
 
 
         navigation.setOnNavigationItemSelectedListener(this);
@@ -50,22 +56,35 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                calendar = Calendar.getInstance();
-                year = calendar.get(Calendar.YEAR);
-                month = calendar.get(Calendar.MONTH);
-                dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-                datePickerDialog = new DatePickerDialog(MainActivity.this,
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                                selectDate.setText(monthName[month] +" "+ day);
-
-                            }
-                        }, year, month, dayOfMonth);
-//                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
-                datePickerDialog.show();
+                selectDate();
             }
         });
+
+        imgSelectDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectDate();
+            }
+        });
+
+
+    }
+
+    public void selectDate(){
+        calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        datePickerDialog = new DatePickerDialog(MainActivity.this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                        selectDate.setText(monthName[month] +" "+ day);
+
+                    }
+                }, year, month, dayOfMonth);
+//                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+        datePickerDialog.show();
     }
 
     @Override
