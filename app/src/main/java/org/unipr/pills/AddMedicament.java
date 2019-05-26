@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -31,7 +32,7 @@ import fragment.DaysPickerFragment;
 import fragment.QuantityFragment;
 import fragment.TimePickerFragment;
 
-public class AddMedicament extends AppCompatActivity implements QuantityFragment.OnInputListener{
+public class AddMedicament extends AppCompatActivity implements QuantityFragment.OnInputListener {
 
     private Toolbar toolbar;
     private EditText inputName;
@@ -44,6 +45,9 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
     private RadioButton numbOfDay;
     private RadioButton intervalDays;
     private RadioButton rdbDayPicker;
+    private LinearLayout timeReminder, timeReminder2, timeReminder3, timeReminder4, timeReminder5;
+    private LinearLayout timeReminder6, timeReminder7, timeReminder8, timeReminder9, timeReminder10;
+    private LinearLayout timeReminder11, timeReminder12;
 
     DatePickerDialog datePickerDialog;
     int year;
@@ -54,7 +58,6 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
 
 
         super.onCreate(savedInstanceState);
@@ -74,6 +77,34 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
         imgTablet = findViewById(R.id.imgTablet);
         imgLiquid = findViewById(R.id.imgLiquid);
         imgInjection = findViewById(R.id.imgInjection);
+        timeReminder2 = findViewById(R.id.timeReminder2);
+        timeReminder3 = findViewById(R.id.timeReminder3);
+        timeReminder4 = findViewById(R.id.timeReminder4);
+        timeReminder5 = findViewById(R.id.timeReminder5);
+        timeReminder6 = findViewById(R.id.timeReminder6);
+        timeReminder7 = findViewById(R.id.timeReminder7);
+        timeReminder8 = findViewById(R.id.timeReminder8);
+        timeReminder9 = findViewById(R.id.timeReminder9);
+        timeReminder10 = findViewById(R.id.timeReminder10);
+        timeReminder11 = findViewById(R.id.timeReminder11);
+        timeReminder12 = findViewById(R.id.timeReminder12);
+
+
+        timeReminder2.setVisibility(LinearLayout.GONE);
+        timeReminder3.setVisibility(LinearLayout.GONE);
+        timeReminder4.setVisibility(LinearLayout.GONE);
+        timeReminder5.setVisibility(LinearLayout.GONE);
+        timeReminder6.setVisibility(LinearLayout.GONE);
+        timeReminder7.setVisibility(LinearLayout.GONE);
+        timeReminder8.setVisibility(LinearLayout.GONE);
+        timeReminder9.setVisibility(LinearLayout.GONE);
+        timeReminder10.setVisibility(LinearLayout.GONE);
+        timeReminder11.setVisibility(LinearLayout.GONE);
+        timeReminder12.setVisibility(LinearLayout.GONE);
+
+        imgCapsule.setBorderColor(getColor(R.color.colorAccent));
+        imgCapsule.setBorderWidth(3);
+        imgCapsule.setCircleBackgroundColor(getColor(R.color.colorAccent));
 
         imgCapsule.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,7 +204,7 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                                scheduleDate.setText(year+"/"+month+"/"+day);
+                                scheduleDate.setText(year + "/" + month + "/" + day);
                             }
                         }, year, month, dayOfMonth);
 //                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
@@ -193,8 +224,8 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
 
     }
 
-    public void setBorder(CircleImageView img){
-        switch (img.getId()){
+    public void setBorder(CircleImageView img) {
+        switch (img.getId()) {
             case R.id.imgCapsule:
                 imgCapsule.setBorderColor(getColor(R.color.colorAccent));
                 imgCapsule.setBorderWidth(3);
