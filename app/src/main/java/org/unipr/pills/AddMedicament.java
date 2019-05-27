@@ -18,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -25,12 +26,14 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
+import database.Database;
 import de.hdodenhof.circleimageview.CircleImageView;
 import fragment.DaysIntervalFragment;
 import fragment.DaysNumberFragment;
 import fragment.DaysPickerFragment;
 import fragment.QuantityFragment;
 import fragment.TimePickerFragment;
+import model.PillRegister;
 
 public class AddMedicament extends AppCompatActivity implements QuantityFragment.OnInputListener {
 
@@ -45,16 +48,20 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
     private RadioButton numbOfDay;
     private RadioButton intervalDays;
     private RadioButton rdbDayPicker;
+    private RadioGroup rdbGrDuration, rdbGrFrequency;
     private LinearLayout timeReminder, timeReminder2, timeReminder3, timeReminder4, timeReminder5;
     private LinearLayout timeReminder6, timeReminder7, timeReminder8, timeReminder9, timeReminder10;
     private LinearLayout timeReminder11, timeReminder12;
+    private Database db;
 
     DatePickerDialog datePickerDialog;
+    Integer photoId;
     int year;
     int month;
     int dayOfMonth;
     Calendar calendar;
-    CircleImageView imgCapsule, imgTablet, imgLiquid, imgInjection;
+    private CircleImageView imgCapsule, imgTablet, imgLiquid, imgInjection;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,10 +80,13 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
         numbOfDay = findViewById(R.id.numberOfDays);
         intervalDays = findViewById(R.id.daysInterval);
         rdbDayPicker = findViewById(R.id.specificDays);
+        rdbGrDuration = findViewById(R.id.rdbGrDuration);
+        rdbGrFrequency = findViewById(R.id.rdbGrFrequency);
         imgCapsule = findViewById(R.id.imgCapsule);
         imgTablet = findViewById(R.id.imgTablet);
         imgLiquid = findViewById(R.id.imgLiquid);
         imgInjection = findViewById(R.id.imgInjection);
+        timeReminder = findViewById(R.id.timeReminder);
         timeReminder2 = findViewById(R.id.timeReminder2);
         timeReminder3 = findViewById(R.id.timeReminder3);
         timeReminder4 = findViewById(R.id.timeReminder4);
@@ -90,21 +100,10 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
         timeReminder12 = findViewById(R.id.timeReminder12);
 
 
-        timeReminder2.setVisibility(LinearLayout.GONE);
-        timeReminder3.setVisibility(LinearLayout.GONE);
-        timeReminder4.setVisibility(LinearLayout.GONE);
-        timeReminder5.setVisibility(LinearLayout.GONE);
-        timeReminder6.setVisibility(LinearLayout.GONE);
-        timeReminder7.setVisibility(LinearLayout.GONE);
-        timeReminder8.setVisibility(LinearLayout.GONE);
-        timeReminder9.setVisibility(LinearLayout.GONE);
-        timeReminder10.setVisibility(LinearLayout.GONE);
-        timeReminder11.setVisibility(LinearLayout.GONE);
-        timeReminder12.setVisibility(LinearLayout.GONE);
-
         imgCapsule.setBorderColor(getColor(R.color.colorAccent));
         imgCapsule.setBorderWidth(3);
         imgCapsule.setCircleBackgroundColor(getColor(R.color.colorAccent));
+        photoId = imgCapsule.getId();
 
         imgCapsule.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,7 +172,7 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
         spnReminder.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                showReminders(position);
             }
 
             @Override
@@ -236,6 +235,7 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
                 imgTablet.setCircleBackgroundColor(255);
                 imgInjection.setCircleBackgroundColor(255);
                 imgLiquid.setCircleBackgroundColor(255);
+                photoId = img.getId();
                 break;
 
             case R.id.imgTablet:
@@ -248,6 +248,7 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
                 imgCapsule.setCircleBackgroundColor(255);
                 imgInjection.setCircleBackgroundColor(255);
                 imgLiquid.setCircleBackgroundColor(255);
+                photoId = img.getId();
                 break;
 
             case R.id.imgInjection:
@@ -260,6 +261,7 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
                 imgTablet.setCircleBackgroundColor(255);
                 imgCapsule.setCircleBackgroundColor(255);
                 imgLiquid.setCircleBackgroundColor(255);
+                photoId = img.getId();
                 break;
 
             case R.id.imgLiquid:
@@ -272,7 +274,156 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
                 imgTablet.setCircleBackgroundColor(255);
                 imgInjection.setCircleBackgroundColor(255);
                 imgCapsule.setCircleBackgroundColor(255);
+                photoId = img.getId();
                 break;
+        }
+    }
+
+    public void showReminders(int position){
+        if (position == 0){
+            timeReminder2.setVisibility(LinearLayout.GONE);
+            timeReminder3.setVisibility(LinearLayout.GONE);
+            timeReminder4.setVisibility(LinearLayout.GONE);
+            timeReminder5.setVisibility(LinearLayout.GONE);
+            timeReminder6.setVisibility(LinearLayout.GONE);
+            timeReminder7.setVisibility(LinearLayout.GONE);
+            timeReminder8.setVisibility(LinearLayout.GONE);
+            timeReminder9.setVisibility(LinearLayout.GONE);
+            timeReminder10.setVisibility(LinearLayout.GONE);
+            timeReminder11.setVisibility(LinearLayout.GONE);
+            timeReminder12.setVisibility(LinearLayout.GONE);
+        } else if(position == 1){
+            timeReminder2.setVisibility(LinearLayout.VISIBLE);
+            timeReminder3.setVisibility(LinearLayout.GONE);
+            timeReminder4.setVisibility(LinearLayout.GONE);
+            timeReminder5.setVisibility(LinearLayout.GONE);
+            timeReminder6.setVisibility(LinearLayout.GONE);
+            timeReminder7.setVisibility(LinearLayout.GONE);
+            timeReminder8.setVisibility(LinearLayout.GONE);
+            timeReminder9.setVisibility(LinearLayout.GONE);
+            timeReminder10.setVisibility(LinearLayout.GONE);
+            timeReminder11.setVisibility(LinearLayout.GONE);
+            timeReminder12.setVisibility(LinearLayout.GONE);
+        }else if(position == 2){
+            timeReminder2.setVisibility(LinearLayout.VISIBLE);
+            timeReminder3.setVisibility(LinearLayout.VISIBLE);
+            timeReminder4.setVisibility(LinearLayout.GONE);
+            timeReminder5.setVisibility(LinearLayout.GONE);
+            timeReminder6.setVisibility(LinearLayout.GONE);
+            timeReminder7.setVisibility(LinearLayout.GONE);
+            timeReminder8.setVisibility(LinearLayout.GONE);
+            timeReminder9.setVisibility(LinearLayout.GONE);
+            timeReminder10.setVisibility(LinearLayout.GONE);
+            timeReminder11.setVisibility(LinearLayout.GONE);
+            timeReminder12.setVisibility(LinearLayout.GONE);
+        }else if(position == 3){
+            timeReminder2.setVisibility(LinearLayout.VISIBLE);
+            timeReminder3.setVisibility(LinearLayout.VISIBLE);
+            timeReminder4.setVisibility(LinearLayout.VISIBLE);
+            timeReminder5.setVisibility(LinearLayout.GONE);
+            timeReminder6.setVisibility(LinearLayout.GONE);
+            timeReminder7.setVisibility(LinearLayout.GONE);
+            timeReminder8.setVisibility(LinearLayout.GONE);
+            timeReminder9.setVisibility(LinearLayout.GONE);
+            timeReminder10.setVisibility(LinearLayout.GONE);
+            timeReminder11.setVisibility(LinearLayout.GONE);
+            timeReminder12.setVisibility(LinearLayout.GONE);
+        }else if(position == 4){
+            timeReminder2.setVisibility(LinearLayout.VISIBLE);
+            timeReminder3.setVisibility(LinearLayout.VISIBLE);
+            timeReminder4.setVisibility(LinearLayout.VISIBLE);
+            timeReminder5.setVisibility(LinearLayout.VISIBLE);
+            timeReminder6.setVisibility(LinearLayout.GONE);
+            timeReminder7.setVisibility(LinearLayout.GONE);
+            timeReminder8.setVisibility(LinearLayout.GONE);
+            timeReminder9.setVisibility(LinearLayout.GONE);
+            timeReminder10.setVisibility(LinearLayout.GONE);
+            timeReminder11.setVisibility(LinearLayout.GONE);
+            timeReminder12.setVisibility(LinearLayout.GONE);
+        }else if(position == 5){
+            timeReminder2.setVisibility(LinearLayout.VISIBLE);
+            timeReminder3.setVisibility(LinearLayout.VISIBLE);
+            timeReminder4.setVisibility(LinearLayout.VISIBLE);
+            timeReminder5.setVisibility(LinearLayout.VISIBLE);
+            timeReminder6.setVisibility(LinearLayout.VISIBLE);
+            timeReminder7.setVisibility(LinearLayout.GONE);
+            timeReminder8.setVisibility(LinearLayout.GONE);
+            timeReminder9.setVisibility(LinearLayout.GONE);
+            timeReminder10.setVisibility(LinearLayout.GONE);
+            timeReminder11.setVisibility(LinearLayout.GONE);
+            timeReminder12.setVisibility(LinearLayout.GONE);
+        }else if(position == 6){
+            timeReminder2.setVisibility(LinearLayout.VISIBLE);
+            timeReminder3.setVisibility(LinearLayout.VISIBLE);
+            timeReminder4.setVisibility(LinearLayout.VISIBLE);
+            timeReminder5.setVisibility(LinearLayout.VISIBLE);
+            timeReminder6.setVisibility(LinearLayout.VISIBLE);
+            timeReminder7.setVisibility(LinearLayout.VISIBLE);
+            timeReminder8.setVisibility(LinearLayout.GONE);
+            timeReminder9.setVisibility(LinearLayout.GONE);
+            timeReminder10.setVisibility(LinearLayout.GONE);
+            timeReminder11.setVisibility(LinearLayout.GONE);
+            timeReminder12.setVisibility(LinearLayout.GONE);
+        }else if(position == 7){
+            timeReminder2.setVisibility(LinearLayout.VISIBLE);
+            timeReminder3.setVisibility(LinearLayout.VISIBLE);
+            timeReminder4.setVisibility(LinearLayout.VISIBLE);
+            timeReminder5.setVisibility(LinearLayout.VISIBLE);
+            timeReminder6.setVisibility(LinearLayout.VISIBLE);
+            timeReminder7.setVisibility(LinearLayout.VISIBLE);
+            timeReminder8.setVisibility(LinearLayout.VISIBLE);
+            timeReminder9.setVisibility(LinearLayout.GONE);
+            timeReminder10.setVisibility(LinearLayout.GONE);
+            timeReminder11.setVisibility(LinearLayout.GONE);
+            timeReminder12.setVisibility(LinearLayout.GONE);
+        }else if(position == 8){
+            timeReminder2.setVisibility(LinearLayout.VISIBLE);
+            timeReminder3.setVisibility(LinearLayout.VISIBLE);
+            timeReminder4.setVisibility(LinearLayout.VISIBLE);
+            timeReminder5.setVisibility(LinearLayout.VISIBLE);
+            timeReminder6.setVisibility(LinearLayout.VISIBLE);
+            timeReminder7.setVisibility(LinearLayout.VISIBLE);
+            timeReminder8.setVisibility(LinearLayout.VISIBLE);
+            timeReminder9.setVisibility(LinearLayout.VISIBLE);
+            timeReminder10.setVisibility(LinearLayout.GONE);
+            timeReminder11.setVisibility(LinearLayout.GONE);
+            timeReminder12.setVisibility(LinearLayout.GONE);
+        }else if(position == 9){
+            timeReminder2.setVisibility(LinearLayout.VISIBLE);
+            timeReminder3.setVisibility(LinearLayout.VISIBLE);
+            timeReminder4.setVisibility(LinearLayout.VISIBLE);
+            timeReminder5.setVisibility(LinearLayout.VISIBLE);
+            timeReminder6.setVisibility(LinearLayout.VISIBLE);
+            timeReminder7.setVisibility(LinearLayout.VISIBLE);
+            timeReminder8.setVisibility(LinearLayout.VISIBLE);
+            timeReminder9.setVisibility(LinearLayout.VISIBLE);
+            timeReminder10.setVisibility(LinearLayout.VISIBLE);
+            timeReminder11.setVisibility(LinearLayout.GONE);
+            timeReminder12.setVisibility(LinearLayout.GONE);
+        }else if(position == 10){
+            timeReminder2.setVisibility(LinearLayout.VISIBLE);
+            timeReminder3.setVisibility(LinearLayout.VISIBLE);
+            timeReminder4.setVisibility(LinearLayout.VISIBLE);
+            timeReminder5.setVisibility(LinearLayout.VISIBLE);
+            timeReminder6.setVisibility(LinearLayout.VISIBLE);
+            timeReminder7.setVisibility(LinearLayout.VISIBLE);
+            timeReminder8.setVisibility(LinearLayout.VISIBLE);
+            timeReminder9.setVisibility(LinearLayout.VISIBLE);
+            timeReminder10.setVisibility(LinearLayout.VISIBLE);
+            timeReminder11.setVisibility(LinearLayout.VISIBLE);
+            timeReminder12.setVisibility(LinearLayout.GONE);
+        }else if (position == 11){
+            timeReminder2.setVisibility(LinearLayout.VISIBLE);
+            timeReminder3.setVisibility(LinearLayout.VISIBLE);
+            timeReminder4.setVisibility(LinearLayout.VISIBLE);
+            timeReminder5.setVisibility(LinearLayout.VISIBLE);
+            timeReminder6.setVisibility(LinearLayout.VISIBLE);
+            timeReminder7.setVisibility(LinearLayout.VISIBLE);
+            timeReminder8.setVisibility(LinearLayout.VISIBLE);
+            timeReminder9.setVisibility(LinearLayout.VISIBLE);
+            timeReminder10.setVisibility(LinearLayout.VISIBLE);
+            timeReminder11.setVisibility(LinearLayout.VISIBLE);
+            timeReminder12.setVisibility(LinearLayout.VISIBLE);
         }
     }
 
@@ -280,6 +431,30 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
         if (!validateName()) {
             return;
         }
+
+        db = new Database(this);
+
+        String pillName = inputName.getText().toString();
+        String start = scheduleDate.getText().toString();
+        int selectedId  = rdbGrDuration.getCheckedRadioButtonId();
+        RadioButton radioButtonDuration = findViewById(selectedId);
+        String duration;
+
+        if(radioButtonDuration.getText().toString().equals("Continuous"))
+            duration = "Continuous";
+        else
+            duration = "1";
+
+        String textReminder = spnReminder.getSelectedItem().toString();
+        System.err.println(pillName);
+        System.err.println(start);
+        System.err.println(radioButtonDuration.getText().toString());
+        System.err.println(textReminder);
+        System.err.println(duration);
+        System.err.println(photoId);
+        String frequency;
+        String status = "ACTIVE";
+
 
         Toast.makeText(getApplicationContext(), "Saved!", Toast.LENGTH_SHORT).show();
     }
@@ -303,6 +478,7 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
     }
 
     public void showTimePickerDialog(View view) {
+
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }

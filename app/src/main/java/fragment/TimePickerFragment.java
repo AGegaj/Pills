@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
+import android.widget.Button;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
@@ -13,6 +14,7 @@ import static org.unipr.pills.AddMedicament.timePicker;
 
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
+    private Button timePickerr;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
