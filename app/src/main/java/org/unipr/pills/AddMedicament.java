@@ -35,16 +35,18 @@ import fragment.QuantityFragment;
 import fragment.TimePickerFragment;
 import model.PillRegister;
 
-public class AddMedicament extends AppCompatActivity implements QuantityFragment.OnInputListener {
+public class AddMedicament extends AppCompatActivity {
 
     private Toolbar toolbar;
     private EditText inputName;
     private TextInputLayout inputLayoutName;
     private Button btnAdd;
     private Spinner spnReminder;
-    public static Button timePicker;
+    private Button timePicker, timePicker2, timePicker3, timePicker4, timePicker5, timePicker6;
+    private Button timePicker7, timePicker8, timePicker9, timePicker10, timePicker11, timePicker12;
     private TextView scheduleDate;
-    private Button quantity;
+    private Button quantity, quantity2, quantity3, quantity4, quantity5, quantity6, quantity7;
+    private Button quantity8, quantity9, quantity10, quantity11, quantity12;
     private RadioButton numbOfDay;
     private RadioButton intervalDays;
     private RadioButton rdbDayPicker;
@@ -75,8 +77,6 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
         toolbar = findViewById(R.id.toolbarAdd);
         spnReminder = findViewById(R.id.spinner_reminder);
         scheduleDate = findViewById(R.id.scheduleDate);
-        timePicker = findViewById(R.id.timePicker);
-        quantity = findViewById(R.id.quantity);
         numbOfDay = findViewById(R.id.numberOfDays);
         intervalDays = findViewById(R.id.daysInterval);
         rdbDayPicker = findViewById(R.id.specificDays);
@@ -85,6 +85,30 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
         imgCapsule = findViewById(R.id.imgCapsule);
         imgTablet = findViewById(R.id.imgTablet);
         imgLiquid = findViewById(R.id.imgLiquid);
+        quantity = findViewById(R.id.quantity);
+        quantity2 = findViewById(R.id.quantity2);
+        quantity3 = findViewById(R.id.quantity3);
+        quantity4 = findViewById(R.id.quantity4);
+        quantity5 = findViewById(R.id.quantity5);
+        quantity6 = findViewById(R.id.quantity6);
+        quantity7 = findViewById(R.id.quantity7);
+        quantity8 = findViewById(R.id.quantity8);
+        quantity9 = findViewById(R.id.quantity9);
+        quantity10 = findViewById(R.id.quantity10);
+        quantity11 = findViewById(R.id.quantity11);
+        quantity12 = findViewById(R.id.quantity12);
+        timePicker = findViewById(R.id.timePicker);
+        timePicker2 = findViewById(R.id.timePicker2);
+        timePicker3 = findViewById(R.id.timePicker3);
+        timePicker4 = findViewById(R.id.timePicker4);
+        timePicker5 = findViewById(R.id.timePicker5);
+        timePicker6 = findViewById(R.id.timePicker6);
+        timePicker7 = findViewById(R.id.timePicker7);
+        timePicker8 = findViewById(R.id.timePicker8);
+        timePicker9 = findViewById(R.id.timePicker9);
+        timePicker10 = findViewById(R.id.timePicker10);
+        timePicker11 = findViewById(R.id.timePicker11);
+        timePicker12 = findViewById(R.id.timePicker12);
         imgInjection = findViewById(R.id.imgInjection);
         timeReminder = findViewById(R.id.timeReminder);
         timeReminder2 = findViewById(R.id.timeReminder2);
@@ -157,16 +181,6 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
             }
         });
 
-        quantity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                QuantityFragment dialogQuantity = new QuantityFragment();
-                Bundle data = new Bundle();
-                data.putString("quantity", quantity.getText().toString().split(" ")[1]);
-                dialogQuantity.setArguments(data);
-                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
-            }
-        });
 
 
         spnReminder.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -208,6 +222,214 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
                         }, year, month, dayOfMonth);
 //                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
                 datePickerDialog.show();
+            }
+        });
+
+        timePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(timePicker);
+            }
+        });
+        timePicker2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(timePicker2);
+            }
+        });
+        timePicker3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(timePicker3);
+            }
+        });
+        timePicker4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(timePicker4);
+            }
+        });
+        timePicker5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(timePicker5);
+            }
+        });
+        timePicker6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(timePicker6);
+            }
+        });
+        timePicker7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(timePicker7);
+            }
+        });
+        timePicker8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(timePicker8);
+            }
+        });
+        timePicker9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(timePicker9);
+            }
+        });
+        timePicker10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(timePicker10);
+            }
+        });
+        timePicker11.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(timePicker11);
+            }
+        });
+        timePicker12.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(timePicker12);
+            }
+        });
+
+        quantity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuantityFragment dialogQuantity = new QuantityFragment();
+                Bundle data = new Bundle();
+                dialogQuantity.setTakeQuantity(quantity);
+                data.putString("quantity", quantity.getText().toString().split(" ")[1]);
+                dialogQuantity.setArguments(data);
+                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
+            }
+        });
+
+        quantity2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuantityFragment dialogQuantity = new QuantityFragment();
+                Bundle data = new Bundle();
+                dialogQuantity.setTakeQuantity(quantity2);
+                data.putString("quantity", quantity2.getText().toString().split(" ")[1]);
+                dialogQuantity.setArguments(data);
+                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
+            }
+        });
+        quantity3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuantityFragment dialogQuantity = new QuantityFragment();
+                Bundle data = new Bundle();
+                dialogQuantity.setTakeQuantity(quantity3);
+                data.putString("quantity", quantity3.getText().toString().split(" ")[1]);
+                dialogQuantity.setArguments(data);
+                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
+            }
+        });
+        quantity4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuantityFragment dialogQuantity = new QuantityFragment();
+                Bundle data = new Bundle();
+                dialogQuantity.setTakeQuantity(quantity4);
+                data.putString("quantity", quantity4.getText().toString().split(" ")[1]);
+                dialogQuantity.setArguments(data);
+                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
+            }
+        });
+        quantity5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuantityFragment dialogQuantity = new QuantityFragment();
+                Bundle data = new Bundle();
+                dialogQuantity.setTakeQuantity(quantity5);
+                data.putString("quantity", quantity5.getText().toString().split(" ")[1]);
+                dialogQuantity.setArguments(data);
+                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
+            }
+        });
+        quantity6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuantityFragment dialogQuantity = new QuantityFragment();
+                Bundle data = new Bundle();
+                dialogQuantity.setTakeQuantity(quantity6);
+                data.putString("quantity", quantity6.getText().toString().split(" ")[1]);
+                dialogQuantity.setArguments(data);
+                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
+            }
+        });
+
+        quantity7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuantityFragment dialogQuantity = new QuantityFragment();
+                Bundle data = new Bundle();
+                dialogQuantity.setTakeQuantity(quantity7);
+                data.putString("quantity", quantity7.getText().toString().split(" ")[1]);
+                dialogQuantity.setArguments(data);
+                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
+            }
+        });
+        quantity8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuantityFragment dialogQuantity = new QuantityFragment();
+                Bundle data = new Bundle();
+                dialogQuantity.setTakeQuantity(quantity8);
+                data.putString("quantity", quantity8.getText().toString().split(" ")[1]);
+                dialogQuantity.setArguments(data);
+                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
+            }
+        });
+        quantity9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuantityFragment dialogQuantity = new QuantityFragment();
+                Bundle data = new Bundle();
+                dialogQuantity.setTakeQuantity(quantity9);
+                data.putString("quantity", quantity9.getText().toString().split(" ")[1]);
+                dialogQuantity.setArguments(data);
+                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
+            }
+        });
+        quantity10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuantityFragment dialogQuantity = new QuantityFragment();
+                Bundle data = new Bundle();
+                dialogQuantity.setTakeQuantity(quantity10);
+                data.putString("quantity", quantity10.getText().toString().split(" ")[1]);
+                dialogQuantity.setArguments(data);
+                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
+            }
+        });
+        quantity11.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuantityFragment dialogQuantity = new QuantityFragment();
+                Bundle data = new Bundle();
+                dialogQuantity.setTakeQuantity(quantity11);
+                data.putString("quantity", quantity11.getText().toString().split(" ")[1]);
+                dialogQuantity.setArguments(data);
+                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
+            }
+        });
+        quantity12.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuantityFragment dialogQuantity = new QuantityFragment();
+                Bundle data = new Bundle();
+                dialogQuantity.setTakeQuantity(quantity12);
+                data.putString("quantity", quantity12.getText().toString().split(" ")[1]);
+                dialogQuantity.setArguments(data);
+                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
             }
         });
 
@@ -279,8 +501,8 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
         }
     }
 
-    public void showReminders(int position){
-        if (position == 0){
+    public void showReminders(int position) {
+        if (position == 0) {
             timeReminder2.setVisibility(LinearLayout.GONE);
             timeReminder3.setVisibility(LinearLayout.GONE);
             timeReminder4.setVisibility(LinearLayout.GONE);
@@ -292,7 +514,7 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
             timeReminder10.setVisibility(LinearLayout.GONE);
             timeReminder11.setVisibility(LinearLayout.GONE);
             timeReminder12.setVisibility(LinearLayout.GONE);
-        } else if(position == 1){
+        } else if (position == 1) {
             timeReminder2.setVisibility(LinearLayout.VISIBLE);
             timeReminder3.setVisibility(LinearLayout.GONE);
             timeReminder4.setVisibility(LinearLayout.GONE);
@@ -304,7 +526,7 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
             timeReminder10.setVisibility(LinearLayout.GONE);
             timeReminder11.setVisibility(LinearLayout.GONE);
             timeReminder12.setVisibility(LinearLayout.GONE);
-        }else if(position == 2){
+        } else if (position == 2) {
             timeReminder2.setVisibility(LinearLayout.VISIBLE);
             timeReminder3.setVisibility(LinearLayout.VISIBLE);
             timeReminder4.setVisibility(LinearLayout.GONE);
@@ -316,7 +538,7 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
             timeReminder10.setVisibility(LinearLayout.GONE);
             timeReminder11.setVisibility(LinearLayout.GONE);
             timeReminder12.setVisibility(LinearLayout.GONE);
-        }else if(position == 3){
+        } else if (position == 3) {
             timeReminder2.setVisibility(LinearLayout.VISIBLE);
             timeReminder3.setVisibility(LinearLayout.VISIBLE);
             timeReminder4.setVisibility(LinearLayout.VISIBLE);
@@ -328,7 +550,7 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
             timeReminder10.setVisibility(LinearLayout.GONE);
             timeReminder11.setVisibility(LinearLayout.GONE);
             timeReminder12.setVisibility(LinearLayout.GONE);
-        }else if(position == 4){
+        } else if (position == 4) {
             timeReminder2.setVisibility(LinearLayout.VISIBLE);
             timeReminder3.setVisibility(LinearLayout.VISIBLE);
             timeReminder4.setVisibility(LinearLayout.VISIBLE);
@@ -340,7 +562,7 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
             timeReminder10.setVisibility(LinearLayout.GONE);
             timeReminder11.setVisibility(LinearLayout.GONE);
             timeReminder12.setVisibility(LinearLayout.GONE);
-        }else if(position == 5){
+        } else if (position == 5) {
             timeReminder2.setVisibility(LinearLayout.VISIBLE);
             timeReminder3.setVisibility(LinearLayout.VISIBLE);
             timeReminder4.setVisibility(LinearLayout.VISIBLE);
@@ -352,7 +574,7 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
             timeReminder10.setVisibility(LinearLayout.GONE);
             timeReminder11.setVisibility(LinearLayout.GONE);
             timeReminder12.setVisibility(LinearLayout.GONE);
-        }else if(position == 6){
+        } else if (position == 6) {
             timeReminder2.setVisibility(LinearLayout.VISIBLE);
             timeReminder3.setVisibility(LinearLayout.VISIBLE);
             timeReminder4.setVisibility(LinearLayout.VISIBLE);
@@ -364,7 +586,7 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
             timeReminder10.setVisibility(LinearLayout.GONE);
             timeReminder11.setVisibility(LinearLayout.GONE);
             timeReminder12.setVisibility(LinearLayout.GONE);
-        }else if(position == 7){
+        } else if (position == 7) {
             timeReminder2.setVisibility(LinearLayout.VISIBLE);
             timeReminder3.setVisibility(LinearLayout.VISIBLE);
             timeReminder4.setVisibility(LinearLayout.VISIBLE);
@@ -376,7 +598,7 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
             timeReminder10.setVisibility(LinearLayout.GONE);
             timeReminder11.setVisibility(LinearLayout.GONE);
             timeReminder12.setVisibility(LinearLayout.GONE);
-        }else if(position == 8){
+        } else if (position == 8) {
             timeReminder2.setVisibility(LinearLayout.VISIBLE);
             timeReminder3.setVisibility(LinearLayout.VISIBLE);
             timeReminder4.setVisibility(LinearLayout.VISIBLE);
@@ -388,7 +610,7 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
             timeReminder10.setVisibility(LinearLayout.GONE);
             timeReminder11.setVisibility(LinearLayout.GONE);
             timeReminder12.setVisibility(LinearLayout.GONE);
-        }else if(position == 9){
+        } else if (position == 9) {
             timeReminder2.setVisibility(LinearLayout.VISIBLE);
             timeReminder3.setVisibility(LinearLayout.VISIBLE);
             timeReminder4.setVisibility(LinearLayout.VISIBLE);
@@ -400,7 +622,7 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
             timeReminder10.setVisibility(LinearLayout.VISIBLE);
             timeReminder11.setVisibility(LinearLayout.GONE);
             timeReminder12.setVisibility(LinearLayout.GONE);
-        }else if(position == 10){
+        } else if (position == 10) {
             timeReminder2.setVisibility(LinearLayout.VISIBLE);
             timeReminder3.setVisibility(LinearLayout.VISIBLE);
             timeReminder4.setVisibility(LinearLayout.VISIBLE);
@@ -412,7 +634,7 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
             timeReminder10.setVisibility(LinearLayout.VISIBLE);
             timeReminder11.setVisibility(LinearLayout.VISIBLE);
             timeReminder12.setVisibility(LinearLayout.GONE);
-        }else if (position == 11){
+        } else if (position == 11) {
             timeReminder2.setVisibility(LinearLayout.VISIBLE);
             timeReminder3.setVisibility(LinearLayout.VISIBLE);
             timeReminder4.setVisibility(LinearLayout.VISIBLE);
@@ -436,11 +658,11 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
 
         String pillName = inputName.getText().toString();
         String start = scheduleDate.getText().toString();
-        int selectedId  = rdbGrDuration.getCheckedRadioButtonId();
+        int selectedId = rdbGrDuration.getCheckedRadioButtonId();
         RadioButton radioButtonDuration = findViewById(selectedId);
         String duration;
 
-        if(radioButtonDuration.getText().toString().equals("Continuous"))
+        if (radioButtonDuration.getText().toString().equals("Continuous"))
             duration = "Continuous";
         else
             duration = "1";
@@ -477,19 +699,13 @@ public class AddMedicament extends AppCompatActivity implements QuantityFragment
         }
     }
 
-    public void showTimePickerDialog(View view) {
+    public void showTimePickerDialog(Button timePicker) {
 
         DialogFragment newFragment = new TimePickerFragment();
+        ((TimePickerFragment) newFragment).setTimePicker(timePicker);
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
-    @Override
-    public void sendInput(String input) {
-        String mInput = input;
-
-        quantity.setText(mInput);
-
-    }
 
     private class MyTextWatcher implements TextWatcher {
 

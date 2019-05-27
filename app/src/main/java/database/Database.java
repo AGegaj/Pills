@@ -47,7 +47,7 @@ public class Database extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        final String CREATE_PILL_TABLE = "CREATE TABLE "+TABLE_PILL+" ("+pill_id+" INTEGER PRIMARY KEY AUTOINCREMENT,"+pill_name+" nVarchar(100) NOT NULL UNIQUE,"+pill_photoId+" INTEGER NOT NULL,"+pill_start+" TEXT NOT NULL,"+pill_duration+" nVarchar(255) NOT NULL,"+pill_frequency+" nVarchar(255) NOT NULL,"+pill_status+" TEXT NOT NULL)";
+        final String CREATE_PILL_TABLE = "CREATE TABLE "+TABLE_PILL+" ("+pill_id+" INTEGER PRIMARY KEY AUTOINCREMENT,"+pill_name+" nVarchar(100) NOT NULL UNIQUE,"+pill_photoId+" INTEGER NOT NULL,"+pill_start+" DATETIME NOT NULL,"+pill_duration+" nVarchar(255) NOT NULL,"+pill_frequency+" nVarchar(255) NOT NULL,"+pill_status+" TEXT NOT NULL)";
         db.execSQL(CREATE_PILL_TABLE);
 
         final String CREATE_REMINDER_TABLE = "CREATE TABLE "+TABLE_REMINDER+" ("+reminder_id+" INTEGER  PRIMARY KEY AUTOINCREMENT,"+reminder_hour+" INTEGER NOT NULL, "+reminder_minutes+" INTEGER NOT NULL,"+reminder_quantity+" nVarchar(100) NOT NULL)";

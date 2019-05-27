@@ -17,18 +17,24 @@ import org.unipr.pills.R;
 
 public class QuantityFragment extends DialogFragment {
 
-    public interface OnInputListener{
-        void sendInput(String input);
-    }
-    public OnInputListener mOnInputListener;
+
 
     private EditText inputQuantity;
     private ImageButton minus;
     private ImageButton plus;
     private TextView cancel;
     private TextView ok;
+    private Button takeQuantity;
     Double value;
     String text;
+
+    public Button getTakeQuantity() {
+        return takeQuantity;
+    }
+
+    public void setTakeQuantity(Button takeQuantity) {
+        this.takeQuantity = takeQuantity;
+    }
 
     @Nullable
     @Override
@@ -79,7 +85,7 @@ public class QuantityFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 String input = inputQuantity.getText().toString();
-                mOnInputListener.sendInput("Take "+input);
+                takeQuantity.setText("Take "+input);
                 inputQuantity.setText(input);
                 getDialog().dismiss();
 
@@ -89,14 +95,7 @@ public class QuantityFragment extends DialogFragment {
         return view;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try{
-            mOnInputListener = (OnInputListener) getActivity();
-        }catch (ClassCastException e){
-        }
-    }
+
 
 
 }

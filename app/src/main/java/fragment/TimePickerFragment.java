@@ -10,11 +10,19 @@ import android.widget.TimePicker;
 
 import java.util.Calendar;
 
-import static org.unipr.pills.AddMedicament.timePicker;
 
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
-    private Button timePickerr;
+
+    private Button timePicker;
+
+    public Button getTimePicker() {
+        return timePicker;
+    }
+
+    public void setTimePicker(Button timePicker) {
+        this.timePicker = timePicker;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
