@@ -1,27 +1,32 @@
 package model;
 
+import java.util.Date;
+
 public class PillRegister {
 
     private String pillName;
 
     private Integer photoId;
 
-    private String start;
+    private Date start;
 
     private String duration;
 
     private String frequency;
 
+    private String reminder;
+
     private String status;
 
     public PillRegister(){}
 
-    public PillRegister(String pillName, Integer photoId, String start, String duration, String frequency, String status) {
+    public PillRegister(String pillName, Integer photoId, Date start, String duration, String frequency, String reminder, String status) {
         this.pillName = pillName;
         this.photoId = photoId;
         this.start = start;
         this.duration = duration;
         this.frequency = frequency;
+        this.reminder = reminder;
         this.status = status;
     }
 
@@ -41,11 +46,11 @@ public class PillRegister {
         this.photoId = photoId;
     }
 
-    public String getStart() {
+    public Date getStart() {
         return start;
     }
 
-    public void setStart(String start) {
+    public void setStart(Date start) {
         this.start = start;
     }
 
@@ -67,6 +72,14 @@ public class PillRegister {
 
     public String getStatus() {
         return status;
+    }
+
+    public String getReminder() {
+        return reminder;
+    }
+
+    public void setReminder(String reminder) {
+        this.reminder = reminder;
     }
 
     public void setStatus(String status) {

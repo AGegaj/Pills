@@ -6,7 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import model.PillRegister;
 import model.ReminderRegister;
@@ -34,6 +36,7 @@ public class Database extends SQLiteOpenHelper {
     public static final String reminder_hour = "Hour";
     public static final String reminder_minutes = "Minutes";
     public static final String reminder_quantity = "Quantity";
+    public static final String reminder_pill_id = "Pill_id";
 
     // PILL REMINDER TABLE //
     public static final String pill_reminder_id = "id";
@@ -47,10 +50,12 @@ public class Database extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        final String CREATE_PILL_TABLE = "CREATE TABLE "+TABLE_PILL+" ("+pill_id+" INTEGER PRIMARY KEY AUTOINCREMENT,"+pill_name+" nVarchar(100) NOT NULL UNIQUE,"+pill_photoId+" INTEGER NOT NULL,"+pill_start+" DATETIME NOT NULL,"+pill_duration+" nVarchar(255) NOT NULL,"+pill_frequency+" nVarchar(255) NOT NULL,"+pill_status+" TEXT NOT NULL)";
+        final String CREATE_PILL_TABLE = "CREATE TABLE "+TABLE_PILL+" ("+pill_id+" INTEGER PRIMARY KEY AUTOINCREMENT,"+pill_name+" nVarchar(100) NOT NULL UNIQUE,"+pill_photoId+" INTEGER NOT NULL,"+pill_start+
+                " DATETIME NOT NULL,"+pill_duration+" nVarchar(255) NOT NULL,"+pill_frequency+" nVarchar(255) NOT NULL,"+pill_status+" TEXT NOT NULL)";
         db.execSQL(CREATE_PILL_TABLE);
 
-        final String CREATE_REMINDER_TABLE = "CREATE TABLE "+TABLE_REMINDER+" ("+reminder_id+" INTEGER  PRIMARY KEY AUTOINCREMENT,"+reminder_hour+" INTEGER NOT NULL, "+reminder_minutes+" INTEGER NOT NULL,"+reminder_quantity+" nVarchar(100) NOT NULL)";
+        final String CREATE_REMINDER_TABLE = "CREATE TABLE "+TABLE_REMINDER+" ("+reminder_id+" INTEGER  PRIMARY KEY AUTOINCREMENT,"+reminder_hour+" INTEGER NOT NULL, "+reminder_minutes+" INTEGER NOT NULL,"+
+                reminder_quantity+" nVarchar(100) NOT NULL,"+reminder_pill_id+" INTEGER, FOREIGN KEY ("+reminder_pill_id+") REFERENCES "+TABLE_PILL+"("+pill_id+") ON DELETE CASCADE)";
         db.execSQL(CREATE_REMINDER_TABLE);
 
         final String CREATE_PILL_REMINDER = "CREATE TABLE "+TABLE_PILL_REMINDER+" ("+pill_reminder_id+" INTEGER PRIMARY KEY AUTOINCREMENT,"+pill_reminder_pillid+" INTEGER NOT NULL,"+
@@ -85,16 +90,18 @@ public class Database extends SQLiteOpenHelper {
         return reminders;
     }
 
-    public void addReminder(ReminderRegister reminderRegister) {
+    public void addReminder(ReminderRegister reminderRegister, String pillName) {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
 
-        values.put(reminder_hour, reminderRegister.getHour());
-        values.put(reminder_minutes, reminderRegister.getMinutes());
-        values.put(reminder_quantity, reminderRegister.getQuantity());
 
-        db.insert(TABLE_REMINDER, null, values);
+        db.execSQL("INSERT INTO "+TABLE_REMINDER+
+                        "("+reminder_hour+","+
+                        reminder_minutes+","+reminder_quantity+","+reminder_pill_id+")"+
+                        "VALUES("+reminderRegister.getHour()+","+reminderRegister.getMinutes()+","+reminderRegister.getQuantity()+",(SELECT "+pill_id+
+                        " FROM "+TABLE_PILL+
+                        " WHERE "+pill_name+"=?))",
+                new Object[]{ pillName });
         db.close();
     }
 
@@ -120,11 +127,12 @@ public class Database extends SQLiteOpenHelper {
     public void addPill(PillRegister pillRegister) {
 
         SQLiteDatabase db = this.getWritableDatabase();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         ContentValues values = new ContentValues();
 
         values.put(pill_name, pillRegister.getPillName());
         values.put(pill_photoId, pillRegister.getPhotoId());
-        values.put(pill_start, pillRegister.getStart());
+        values.put(pill_start, dateFormat.format(pillRegister.getStart()));
         values.put(pill_duration, pillRegister.getDuration());
         values.put(pill_frequency, pillRegister.getFrequency());
         values.put(pill_status, pillRegister.getStatus());

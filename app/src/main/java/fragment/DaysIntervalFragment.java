@@ -1,6 +1,5 @@
 package fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -8,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import org.jetbrains.annotations.Nullable;
@@ -15,17 +15,32 @@ import org.unipr.pills.R;
 
 public class DaysIntervalFragment extends DialogFragment {
 
-    public interface OnInputListener {
-        void sendInput(String input);
-    }
-
-    public OnInputListener mOnInputListener;
-
     private EditText inputNumber;
     private ImageButton minus;
     private ImageButton plus;
     private TextView cancel;
     private TextView set;
+
+    private RadioButton rdbEveryDay;
+
+    public RadioButton getRdbEveryDay() {
+        return rdbEveryDay;
+    }
+
+    public void setRdbEveryDay(RadioButton rdbEveryDay) {
+        this.rdbEveryDay = rdbEveryDay;
+    }
+
+    private TextView txtDaysInterval;
+
+    public TextView getTxtDaysInterval() {
+        return txtDaysInterval;
+    }
+
+    public void setTxtDaysInterval(TextView txtDaysInterval) {
+        this.txtDaysInterval = txtDaysInterval;
+    }
+
     Integer value;
     String text;
 
@@ -70,6 +85,8 @@ public class DaysIntervalFragment extends DialogFragment {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(txtDaysInterval.getVisibility() != View.VISIBLE)
+                    rdbEveryDay.setChecked(true);
                 getDialog().dismiss();
             }
         });
@@ -78,8 +95,9 @@ public class DaysIntervalFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 String input = inputNumber.getText().toString();
-//                mOnInputListener.sendInput(input);
                 inputNumber.setText(input);
+                txtDaysInterval.setText(input);
+                txtDaysInterval.setVisibility(View.VISIBLE);
                 getDialog().dismiss();
 
             }
@@ -88,14 +106,7 @@ public class DaysIntervalFragment extends DialogFragment {
         return view;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            mOnInputListener = (OnInputListener) getActivity();
-        } catch (ClassCastException e) {
-        }
-    }
+
 
 
 }

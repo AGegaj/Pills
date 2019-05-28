@@ -24,7 +24,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import database.Database;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -34,6 +38,7 @@ import fragment.DaysPickerFragment;
 import fragment.QuantityFragment;
 import fragment.TimePickerFragment;
 import model.PillRegister;
+import model.ReminderRegister;
 
 public class AddMedicament extends AppCompatActivity {
 
@@ -47,14 +52,15 @@ public class AddMedicament extends AppCompatActivity {
     private TextView scheduleDate;
     private Button quantity, quantity2, quantity3, quantity4, quantity5, quantity6, quantity7;
     private Button quantity8, quantity9, quantity10, quantity11, quantity12;
-    private RadioButton numbOfDay;
+    private RadioButton rdbContinuous, numbOfDay;
     private RadioButton intervalDays;
-    private RadioButton rdbDayPicker;
+    private RadioButton rdbDayPicker, rdbEveryDay;
     private RadioGroup rdbGrDuration, rdbGrFrequency;
     private LinearLayout timeReminder, timeReminder2, timeReminder3, timeReminder4, timeReminder5;
     private LinearLayout timeReminder6, timeReminder7, timeReminder8, timeReminder9, timeReminder10;
     private LinearLayout timeReminder11, timeReminder12;
     private Database db;
+    private TextView daysnum, txtDaysInterval, txtSpecificDays;
 
     DatePickerDialog datePickerDialog;
     Integer photoId;
@@ -78,10 +84,14 @@ public class AddMedicament extends AppCompatActivity {
         spnReminder = findViewById(R.id.spinner_reminder);
         scheduleDate = findViewById(R.id.scheduleDate);
         numbOfDay = findViewById(R.id.numberOfDays);
+        rdbContinuous = findViewById(R.id.continuous);
         intervalDays = findViewById(R.id.daysInterval);
+        txtDaysInterval = findViewById(R.id.txtDaysInterval);
+        txtSpecificDays = findViewById(R.id.txtSpecificDays);
         rdbDayPicker = findViewById(R.id.specificDays);
         rdbGrDuration = findViewById(R.id.rdbGrDuration);
         rdbGrFrequency = findViewById(R.id.rdbGrFrequency);
+        rdbEveryDay = findViewById(R.id.everyDay);
         imgCapsule = findViewById(R.id.imgCapsule);
         imgTablet = findViewById(R.id.imgTablet);
         imgLiquid = findViewById(R.id.imgLiquid);
@@ -122,6 +132,7 @@ public class AddMedicament extends AppCompatActivity {
         timeReminder10 = findViewById(R.id.timeReminder10);
         timeReminder11 = findViewById(R.id.timeReminder11);
         timeReminder12 = findViewById(R.id.timeReminder12);
+        daysnum = findViewById(R.id.daysnum);
 
 
         imgCapsule.setBorderColor(getColor(R.color.colorAccent));
@@ -160,7 +171,10 @@ public class AddMedicament extends AppCompatActivity {
         rdbDayPicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                txtDaysInterval.setVisibility(View.INVISIBLE);
                 DaysPickerFragment daysPicker = new DaysPickerFragment();
+                daysPicker.setRdbEveryDay(rdbEveryDay);
+                daysPicker.setTxtSpecificDays(txtSpecificDays);
                 daysPicker.show(getSupportFragmentManager(), "DaysPickerFragment");
             }
         });
@@ -168,16 +182,35 @@ public class AddMedicament extends AppCompatActivity {
         intervalDays.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                txtSpecificDays.setVisibility(View.INVISIBLE);
                 DaysIntervalFragment intervalFragment = new DaysIntervalFragment();
+                intervalFragment.setTxtDaysInterval(txtDaysInterval);
+                intervalFragment.setRdbEveryDay(rdbEveryDay);
                 intervalFragment.show(getSupportFragmentManager(), "DaysIntervalFragment");
             }
         });
 
+        rdbContinuous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                daysnum.setVisibility(View.INVISIBLE);
+            }
+        });
         numbOfDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DaysNumberFragment dayNumbFragment = new DaysNumberFragment();
+                dayNumbFragment.setDaysnum(daysnum);
+                dayNumbFragment.setRdbContinuous(rdbContinuous);
                 dayNumbFragment.show(getSupportFragmentManager(), "DaysNumberFragment");
+            }
+        });
+
+        rdbEveryDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                txtDaysInterval.setVisibility(View.INVISIBLE);
+                txtSpecificDays.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -653,32 +686,54 @@ public class AddMedicament extends AppCompatActivity {
         if (!validateName()) {
             return;
         }
+        try{
+            db = new Database(this);
+            PillRegister pillRegister = new PillRegister();
 
-        db = new Database(this);
+            pillRegister.setPillName(inputName.getText().toString());
+            pillRegister.setPhotoId(photoId);
+            Date startDate = new SimpleDateFormat("yyyy/MM/dd").parse(scheduleDate.getText().toString());
+            pillRegister.setStart(startDate);
+            RadioButton radioButtonDuration = findViewById(rdbGrDuration.getCheckedRadioButtonId());
+            String duration;
 
-        String pillName = inputName.getText().toString();
-        String start = scheduleDate.getText().toString();
-        int selectedId = rdbGrDuration.getCheckedRadioButtonId();
-        RadioButton radioButtonDuration = findViewById(selectedId);
-        String duration;
+            if (radioButtonDuration.getText().toString().equals("Continuous"))
+                duration = "Continuous";
+            else
+                duration = daysnum.getText().toString();
 
-        if (radioButtonDuration.getText().toString().equals("Continuous"))
-            duration = "Continuous";
-        else
-            duration = "1";
+            RadioButton radioButtonFrequency = findViewById(rdbGrFrequency.getCheckedRadioButtonId());
+            String frequency;
+            if(radioButtonFrequency.getText().toString().equals("Every day"))
+                frequency = "Everyday";
+            else if(radioButtonFrequency.getText().toString().equals("Specific days of week"))
+                frequency = txtSpecificDays.getText().toString();
+            else
+                frequency = txtDaysInterval.getText().toString();
 
-        String textReminder = spnReminder.getSelectedItem().toString();
-        System.err.println(pillName);
-        System.err.println(start);
-        System.err.println(radioButtonDuration.getText().toString());
-        System.err.println(textReminder);
-        System.err.println(duration);
-        System.err.println(photoId);
-        String frequency;
-        String status = "ACTIVE";
+            pillRegister.setDuration(duration);
+            pillRegister.setFrequency(frequency);
+            pillRegister.setReminder(spnReminder.getSelectedItem().toString());
+            pillRegister.setStatus("ACTIVE");
 
+            db.addPill(pillRegister);
 
-        Toast.makeText(getApplicationContext(), "Saved!", Toast.LENGTH_SHORT).show();
+            ReminderRegister reminderRegister = new ReminderRegister();
+            Integer hour = Integer.parseInt(timePicker.getText().toString().split(":")[0]);
+            Integer minutes = Integer.parseInt(timePicker.getText().toString().split(":")[1]);
+            reminderRegister.setHour(hour);
+            reminderRegister.setMinutes(minutes);
+            reminderRegister.setQuantity(quantity.getText().toString().split(" ")[1]);
+
+            db.addReminder(reminderRegister, pillRegister.getPillName());
+            db.close();
+
+            Toast.makeText(getApplicationContext(), "Saved!", Toast.LENGTH_SHORT).show();
+        }
+        catch (Exception e){
+
+        }
+
     }
 
     private boolean validateName() {

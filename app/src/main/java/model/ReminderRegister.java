@@ -8,12 +8,15 @@ public class ReminderRegister {
 
     private String quantity;
 
+    private Integer pillId;
+
     public ReminderRegister(){}
 
-    public ReminderRegister(Integer hour, Integer minutes, String quantity) {
+    public ReminderRegister(Integer hour, Integer minutes, String quantity, Integer pillId) {
         this.hour = hour;
         this.minutes = minutes;
         this.quantity = quantity;
+        this.pillId = pillId;
     }
 
     public Integer getHour() {
@@ -38,5 +41,13 @@ public class ReminderRegister {
 
     public void setQuantity(String quantity) {
         this.quantity = quantity;
+    }
+
+    public Integer getPillId() {
+        return pillId;
+    }
+
+    public void setPillId(Integer pillId) {
+        this.pillId = pillId;
     }
 }
