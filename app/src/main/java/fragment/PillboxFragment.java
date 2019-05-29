@@ -45,6 +45,7 @@ public class PillboxFragment extends Fragment {
         imgPill = view.findViewById(R.id.imgPill);
         toolbarPillbox = view.findViewById(R.id.toolbarPillbox);
 
+
         initPillboxList();
         recyclerView = view.findViewById(R.id.recycler_view_pillbox);
         adapter = new PillboxAdapter(this.getContext(), pillPhotoData, pillNameData);

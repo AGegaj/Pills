@@ -1,7 +1,6 @@
 package org.unipr.pills;
 
 import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
@@ -21,7 +20,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -37,10 +35,11 @@ import fragment.DaysNumberFragment;
 import fragment.DaysPickerFragment;
 import fragment.QuantityFragment;
 import fragment.TimePickerFragment;
+import model.PillDataResult;
 import model.PillRegister;
 import model.ReminderRegister;
 
-public class AddMedicament extends AppCompatActivity {
+public class UpdateMedicament extends AppCompatActivity {
 
     private Toolbar toolbar;
     private EditText inputName;
@@ -71,13 +70,13 @@ public class AddMedicament extends AppCompatActivity {
     Calendar calendar;
     private CircleImageView imgCapsule, imgTablet, imgLiquid, imgInjection;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_medicament);
+        setContentView(R.layout.activity_update_medicament);
+
         inputName = findViewById(R.id.input_name);
         inputLayoutName = findViewById(R.id.input_layout_name);
         btnAdd = findViewById(R.id.btn_addMed);
@@ -134,6 +133,10 @@ public class AddMedicament extends AppCompatActivity {
         timeReminder11 = findViewById(R.id.timeReminder11);
         timeReminder12 = findViewById(R.id.timeReminder12);
         daysnum = findViewById(R.id.daysnum);
+
+        Bundle extras = getIntent().getExtras();
+        String pillNam = extras.getString("pillName");
+        Integer pId = extras.getInt("pillId");
 
 
         imgCapsule.setBorderColor(getColor(R.color.colorAccent));
@@ -230,7 +233,7 @@ public class AddMedicament extends AppCompatActivity {
         });
 
         toolbar.setNavigationIcon(R.drawable.back);
-        toolbar.setTitle("Add Medicament");
+        toolbar.setTitle("Edit");
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -247,11 +250,11 @@ public class AddMedicament extends AppCompatActivity {
                 year = calendar.get(Calendar.YEAR);
                 month = calendar.get(Calendar.MONTH);
                 dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-                datePickerDialog = new DatePickerDialog(AddMedicament.this,
+                datePickerDialog = new DatePickerDialog(UpdateMedicament.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                                scheduleDate.setText(year + "/" + (month+1) + "/" + day);
+                                scheduleDate.setText(year + "/" + (month + 1) + "/" + day);
                             }
                         }, year, month, dayOfMonth);
 //                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
@@ -259,214 +262,11 @@ public class AddMedicament extends AppCompatActivity {
             }
         });
 
-        timePicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showTimePickerDialog(timePicker);
-            }
-        });
-        timePicker2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showTimePickerDialog(timePicker2);
-            }
-        });
-        timePicker3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showTimePickerDialog(timePicker3);
-            }
-        });
-        timePicker4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showTimePickerDialog(timePicker4);
-            }
-        });
-        timePicker5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showTimePickerDialog(timePicker5);
-            }
-        });
-        timePicker6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showTimePickerDialog(timePicker6);
-            }
-        });
-        timePicker7.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showTimePickerDialog(timePicker7);
-            }
-        });
-        timePicker8.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showTimePickerDialog(timePicker8);
-            }
-        });
-        timePicker9.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showTimePickerDialog(timePicker9);
-            }
-        });
-        timePicker10.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showTimePickerDialog(timePicker10);
-            }
-        });
-        timePicker11.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showTimePickerDialog(timePicker11);
-            }
-        });
-        timePicker12.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showTimePickerDialog(timePicker12);
-            }
-        });
+        setTimePickerListener();
 
-        quantity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                QuantityFragment dialogQuantity = new QuantityFragment();
-                Bundle data = new Bundle();
-                dialogQuantity.setTakeQuantity(quantity);
-                data.putString("quantity", quantity.getText().toString().split(" ")[1]);
-                dialogQuantity.setArguments(data);
-                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
-            }
-        });
+        setQuantityListener();
 
-        quantity2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                QuantityFragment dialogQuantity = new QuantityFragment();
-                Bundle data = new Bundle();
-                dialogQuantity.setTakeQuantity(quantity2);
-                data.putString("quantity", quantity2.getText().toString().split(" ")[1]);
-                dialogQuantity.setArguments(data);
-                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
-            }
-        });
-        quantity3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                QuantityFragment dialogQuantity = new QuantityFragment();
-                Bundle data = new Bundle();
-                dialogQuantity.setTakeQuantity(quantity3);
-                data.putString("quantity", quantity3.getText().toString().split(" ")[1]);
-                dialogQuantity.setArguments(data);
-                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
-            }
-        });
-        quantity4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                QuantityFragment dialogQuantity = new QuantityFragment();
-                Bundle data = new Bundle();
-                dialogQuantity.setTakeQuantity(quantity4);
-                data.putString("quantity", quantity4.getText().toString().split(" ")[1]);
-                dialogQuantity.setArguments(data);
-                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
-            }
-        });
-        quantity5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                QuantityFragment dialogQuantity = new QuantityFragment();
-                Bundle data = new Bundle();
-                dialogQuantity.setTakeQuantity(quantity5);
-                data.putString("quantity", quantity5.getText().toString().split(" ")[1]);
-                dialogQuantity.setArguments(data);
-                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
-            }
-        });
-        quantity6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                QuantityFragment dialogQuantity = new QuantityFragment();
-                Bundle data = new Bundle();
-                dialogQuantity.setTakeQuantity(quantity6);
-                data.putString("quantity", quantity6.getText().toString().split(" ")[1]);
-                dialogQuantity.setArguments(data);
-                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
-            }
-        });
-
-        quantity7.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                QuantityFragment dialogQuantity = new QuantityFragment();
-                Bundle data = new Bundle();
-                dialogQuantity.setTakeQuantity(quantity7);
-                data.putString("quantity", quantity7.getText().toString().split(" ")[1]);
-                dialogQuantity.setArguments(data);
-                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
-            }
-        });
-        quantity8.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                QuantityFragment dialogQuantity = new QuantityFragment();
-                Bundle data = new Bundle();
-                dialogQuantity.setTakeQuantity(quantity8);
-                data.putString("quantity", quantity8.getText().toString().split(" ")[1]);
-                dialogQuantity.setArguments(data);
-                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
-            }
-        });
-        quantity9.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                QuantityFragment dialogQuantity = new QuantityFragment();
-                Bundle data = new Bundle();
-                dialogQuantity.setTakeQuantity(quantity9);
-                data.putString("quantity", quantity9.getText().toString().split(" ")[1]);
-                dialogQuantity.setArguments(data);
-                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
-            }
-        });
-        quantity10.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                QuantityFragment dialogQuantity = new QuantityFragment();
-                Bundle data = new Bundle();
-                dialogQuantity.setTakeQuantity(quantity10);
-                data.putString("quantity", quantity10.getText().toString().split(" ")[1]);
-                dialogQuantity.setArguments(data);
-                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
-            }
-        });
-        quantity11.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                QuantityFragment dialogQuantity = new QuantityFragment();
-                Bundle data = new Bundle();
-                dialogQuantity.setTakeQuantity(quantity11);
-                data.putString("quantity", quantity11.getText().toString().split(" ")[1]);
-                dialogQuantity.setArguments(data);
-                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
-            }
-        });
-        quantity12.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                QuantityFragment dialogQuantity = new QuantityFragment();
-                Bundle data = new Bundle();
-                dialogQuantity.setTakeQuantity(quantity12);
-                data.putString("quantity", quantity12.getText().toString().split(" ")[1]);
-                dialogQuantity.setArguments(data);
-                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
-            }
-        });
-
+        fillFields(pId, pillNam);
 
         inputName.addTextChangedListener(new MyTextWatcher(inputName));
 
@@ -897,6 +697,278 @@ public class AddMedicament extends AppCompatActivity {
         reminderRegister.setQuantity(quantity.getText().toString().split(" ")[1]);
 
         return reminderRegister;
+    }
+
+    public void setTimePickerListener() {
+        timePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(timePicker);
+            }
+        });
+        timePicker2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(timePicker2);
+            }
+        });
+        timePicker3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(timePicker3);
+            }
+        });
+        timePicker4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(timePicker4);
+            }
+        });
+        timePicker5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(timePicker5);
+            }
+        });
+        timePicker6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(timePicker6);
+            }
+        });
+        timePicker7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(timePicker7);
+            }
+        });
+        timePicker8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(timePicker8);
+            }
+        });
+        timePicker9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(timePicker9);
+            }
+        });
+        timePicker10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(timePicker10);
+            }
+        });
+        timePicker11.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(timePicker11);
+            }
+        });
+        timePicker12.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(timePicker12);
+            }
+        });
+
+    }
+
+    public void setQuantityListener() {
+        quantity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuantityFragment dialogQuantity = new QuantityFragment();
+                Bundle data = new Bundle();
+                dialogQuantity.setTakeQuantity(quantity);
+                data.putString("quantity", quantity.getText().toString().split(" ")[1]);
+                dialogQuantity.setArguments(data);
+                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
+            }
+        });
+
+        quantity2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuantityFragment dialogQuantity = new QuantityFragment();
+                Bundle data = new Bundle();
+                dialogQuantity.setTakeQuantity(quantity2);
+                data.putString("quantity", quantity2.getText().toString().split(" ")[1]);
+                dialogQuantity.setArguments(data);
+                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
+            }
+        });
+        quantity3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuantityFragment dialogQuantity = new QuantityFragment();
+                Bundle data = new Bundle();
+                dialogQuantity.setTakeQuantity(quantity3);
+                data.putString("quantity", quantity3.getText().toString().split(" ")[1]);
+                dialogQuantity.setArguments(data);
+                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
+            }
+        });
+        quantity4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuantityFragment dialogQuantity = new QuantityFragment();
+                Bundle data = new Bundle();
+                dialogQuantity.setTakeQuantity(quantity4);
+                data.putString("quantity", quantity4.getText().toString().split(" ")[1]);
+                dialogQuantity.setArguments(data);
+                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
+            }
+        });
+        quantity5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuantityFragment dialogQuantity = new QuantityFragment();
+                Bundle data = new Bundle();
+                dialogQuantity.setTakeQuantity(quantity5);
+                data.putString("quantity", quantity5.getText().toString().split(" ")[1]);
+                dialogQuantity.setArguments(data);
+                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
+            }
+        });
+        quantity6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuantityFragment dialogQuantity = new QuantityFragment();
+                Bundle data = new Bundle();
+                dialogQuantity.setTakeQuantity(quantity6);
+                data.putString("quantity", quantity6.getText().toString().split(" ")[1]);
+                dialogQuantity.setArguments(data);
+                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
+            }
+        });
+
+        quantity7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuantityFragment dialogQuantity = new QuantityFragment();
+                Bundle data = new Bundle();
+                dialogQuantity.setTakeQuantity(quantity7);
+                data.putString("quantity", quantity7.getText().toString().split(" ")[1]);
+                dialogQuantity.setArguments(data);
+                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
+            }
+        });
+        quantity8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuantityFragment dialogQuantity = new QuantityFragment();
+                Bundle data = new Bundle();
+                dialogQuantity.setTakeQuantity(quantity8);
+                data.putString("quantity", quantity8.getText().toString().split(" ")[1]);
+                dialogQuantity.setArguments(data);
+                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
+            }
+        });
+        quantity9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuantityFragment dialogQuantity = new QuantityFragment();
+                Bundle data = new Bundle();
+                dialogQuantity.setTakeQuantity(quantity9);
+                data.putString("quantity", quantity9.getText().toString().split(" ")[1]);
+                dialogQuantity.setArguments(data);
+                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
+            }
+        });
+        quantity10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuantityFragment dialogQuantity = new QuantityFragment();
+                Bundle data = new Bundle();
+                dialogQuantity.setTakeQuantity(quantity10);
+                data.putString("quantity", quantity10.getText().toString().split(" ")[1]);
+                dialogQuantity.setArguments(data);
+                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
+            }
+        });
+        quantity11.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuantityFragment dialogQuantity = new QuantityFragment();
+                Bundle data = new Bundle();
+                dialogQuantity.setTakeQuantity(quantity11);
+                data.putString("quantity", quantity11.getText().toString().split(" ")[1]);
+                dialogQuantity.setArguments(data);
+                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
+            }
+        });
+        quantity12.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuantityFragment dialogQuantity = new QuantityFragment();
+                Bundle data = new Bundle();
+                dialogQuantity.setTakeQuantity(quantity12);
+                data.putString("quantity", quantity12.getText().toString().split(" ")[1]);
+                dialogQuantity.setArguments(data);
+                dialogQuantity.show(getSupportFragmentManager(), "QuantityFragment");
+            }
+        });
+
+    }
+
+    public void fillFields(Integer id, String name) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        try {
+            db = new Database(this);
+            PillDataResult pill;
+            pill = db.getPillByName(name);
+            inputName.setText(pill.getPillName());
+            Integer imageId = pill.getPhotoId();
+
+            if (imageId == getResources().getIdentifier("capsule",
+                    "drawable", getPackageName())) {
+                setBorder(imgCapsule);
+                photoId = imageId;
+            } else if (imageId == getResources().getIdentifier("liquid",
+                    "drawable", getPackageName())) {
+                photoId = imageId;
+                setBorder(imgLiquid);
+            } else if (imageId == getResources().getIdentifier("tablet",
+                    "drawable", getPackageName())) {
+                setBorder(imgTablet);
+                photoId = imageId;
+            } else if (imageId == getResources().getIdentifier("injection",
+                    "drawable", getPackageName())) {
+                photoId = imageId;
+                setBorder(imgInjection);
+            }
+
+            if(pill.getDuration().equals("Continuous"))
+                rdbContinuous.setChecked(true);
+            else
+            {
+                numbOfDay.setChecked(true);
+                daysnum.setText(pill.getDuration());
+            }
+
+            String frequencyPill = pill.getFrequency();
+            if (frequencyPill.equals("Everyday")) {
+                rdbEveryDay.setChecked(true);
+            }else if (frequencyPill.split(" ")[0].equals("every")) {
+                intervalDays.setChecked(true);
+                txtDaysInterval.setText(frequencyPill);
+            }else{
+                txtSpecificDays.setText(frequencyPill);
+                rdbDayPicker.setChecked(true);
+
+            }
+
+
+
+            scheduleDate.setText(dateFormat.format(pill.getStart()));
+
+
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+
     }
 
 

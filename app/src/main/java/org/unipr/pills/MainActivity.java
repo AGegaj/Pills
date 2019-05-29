@@ -21,7 +21,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import adapter.PillHomeAdapter;
-import adapter.PillboxAdapter;
 import database.Database;
 import de.hdodenhof.circleimageview.CircleImageView;
 import fragment.HomeFragment;
@@ -43,9 +42,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             "Aug", "Sep", "Oct", "Nov",
             "Dec"};
 
-    RecyclerView recyclerView;
-    PillHomeAdapter adapter;
-    RecyclerView.LayoutManager layoutManager;
+    private RecyclerView recyclerView;
+    private PillHomeAdapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
 
 
     private ArrayList<String> pillNameData = new ArrayList<String>();
@@ -76,12 +75,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         setSupportActionBar(toolbar);
 
         Date date = Calendar.getInstance().getTime();
-        initPillList(date);
-//        recyclerView = findViewById(R.id.recycler_view_home);
-//        adapter = new PillHomeAdapter(this, pillPhotoData, pillNameData, pillTime);
-//        recyclerView.setAdapter(adapter);
-//        layoutManager = new LinearLayoutManager(this);
-//        recyclerView.setLayoutManager(layoutManager);
+        initPillList(date.toString());
+        recyclerView = findViewById(R.id.recycler_view_home);
+        adapter = new PillHomeAdapter(MainActivity.this, pillPhotoData, pillNameData, pillTime);
+        recyclerView.setAdapter(adapter);
+        layoutManager = new LinearLayoutManager(MainActivity.this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        if(pillNameData.isEmpty())
+            txtNoMeds.setText("No Meds");
 
         navigation.setOnNavigationItemSelectedListener(this);
 
@@ -101,6 +103,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
     public void selectDate() {
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -111,6 +119,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                         selectDate.setText(monthName[month] + " " + day);
+                        String date = year + "/" + (month+1) + "/" + day;
+                        initPillList(date);
 
                     }
                 }, year, month, dayOfMonth);
@@ -125,10 +135,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         switch (item.getItemId()) {
             case R.id.navigation_home:
                 fragment = new HomeFragment();
+                recyclerView.setVisibility(View.VISIBLE);
                 break;
 
             case R.id.navigation_pillbox:
                 fragment = new PillboxFragment();
+                recyclerView.setVisibility(View.GONE);
                 break;
 
             case R.id.navigation_add:
@@ -152,7 +164,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return false;
     }
 
-    public void initPillList(Date date){
+    public void initPillList(String date){
+        pillNameData.clear();
+        pillTime.clear();
+        pillPhotoData.clear();
+
+        pillPhotoData.add(2131230814);
+        pillNameData.add("Aspirin");
+        pillTime.add("20:00");
+
+        pillPhotoData.add(2131230814);
+        pillNameData.add("Insulin");
+        pillTime.add("21:45");
 
     }
 }

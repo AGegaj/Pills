@@ -131,6 +131,7 @@ public class Database extends SQLiteOpenHelper {
                     pillDataResult.setPillName(cursor.getString(1));
                     pillDataResult.setPhotoId(Integer.parseInt(cursor.getString(2)));
                     pillDataResult.setStart(start);
+                    pillDataResult.setDuration(cursor.getString(4));
                     pillDataResult.setFrequency(cursor.getString(5));
                     pillDataResult.setReminderTimes(cursor.getString(6));
                 }catch (Exception e){
@@ -168,7 +169,8 @@ public class Database extends SQLiteOpenHelper {
     public ArrayList<PillBoxDataResult> getActivePills() {
         ArrayList<PillBoxDataResult> pills = new ArrayList<>();
 
-        String selectQuery = "SELECT * FROM "+TABLE_PILL;
+        String selectQuery = "SELECT * FROM "+TABLE_PILL+" WHERE "+pill_status+"='ACTIVE'";
+
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -190,7 +192,7 @@ public class Database extends SQLiteOpenHelper {
     public ArrayList<PillBoxDataResult> getInActivePills() {
         ArrayList<PillBoxDataResult> pills = new ArrayList<>();
 
-        String selectQuery = "SELECT * FROM "+TABLE_PILL+" WHERE "+pill_status+"=INACTIVE";
+        String selectQuery = "SELECT * FROM "+TABLE_PILL+" WHERE "+pill_status+"='INACTIVE'";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -225,13 +227,13 @@ public class Database extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void delete(String pillName) {
+    public void delete(Integer id) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.execSQL("UPDATE "+TABLE_PILL+
-                        " SET "+pill_status+"=INACTIVE WHERE "+
-                        pill_name+"="+pillName);
+                        " SET "+pill_status+"='INACTIVE' WHERE "+
+                        pill_id+"="+id);
 
         db.close();
     }

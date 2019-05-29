@@ -13,15 +13,26 @@ public class PillDataResult {
 
     private String frequency;
 
+    private String duration;
+
     private String reminderTimes;
 
-    public PillDataResult(Integer id, Integer photoId, String pillName, Date start, String frequency, String reminderTimes) {
+    public PillDataResult(Integer id, Integer photoId, String pillName, Date start, String frequency, String duration, String reminderTimes) {
         this.id = id;
         this.photoId = photoId;
         this.pillName = pillName;
         this.start = start;
         this.frequency = frequency;
+        this.duration = duration;
         this.reminderTimes = reminderTimes;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
     }
 
     public Integer getId() {
