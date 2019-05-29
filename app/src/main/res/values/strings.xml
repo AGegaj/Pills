@@ -5,4 +5,6 @@
     <string name="btnAdd">DONE</string>
     <string name="hint_name">Type ingredient or brand name</string>
     <string name="err_msg_name">Name must not be null!</string>
+    <string name="edit">edit</string>
+    <string name="deleteIcon">delete</string>
 </resources>
