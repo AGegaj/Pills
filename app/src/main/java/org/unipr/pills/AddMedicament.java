@@ -67,6 +67,7 @@ public class AddMedicament extends AppCompatActivity {
     int year;
     int month;
     int dayOfMonth;
+    int count;
     Calendar calendar;
     private CircleImageView imgCapsule, imgTablet, imgLiquid, imgInjection;
 
@@ -138,7 +139,8 @@ public class AddMedicament extends AppCompatActivity {
         imgCapsule.setBorderColor(getColor(R.color.colorAccent));
         imgCapsule.setBorderWidth(3);
         imgCapsule.setCircleBackgroundColor(getColor(R.color.colorAccent));
-        photoId = imgCapsule.getId();
+        photoId = getResources().getIdentifier("capsule",
+                "drawable", getPackageName());
 
         imgCapsule.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -213,7 +215,6 @@ public class AddMedicament extends AppCompatActivity {
                 txtSpecificDays.setVisibility(View.INVISIBLE);
             }
         });
-
 
 
         spnReminder.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -490,7 +491,8 @@ public class AddMedicament extends AppCompatActivity {
                 imgTablet.setCircleBackgroundColor(255);
                 imgInjection.setCircleBackgroundColor(255);
                 imgLiquid.setCircleBackgroundColor(255);
-                photoId = img.getId();
+                photoId = getResources().getIdentifier("capsule",
+                        "drawable", getPackageName());
                 break;
 
             case R.id.imgTablet:
@@ -503,7 +505,8 @@ public class AddMedicament extends AppCompatActivity {
                 imgCapsule.setCircleBackgroundColor(255);
                 imgInjection.setCircleBackgroundColor(255);
                 imgLiquid.setCircleBackgroundColor(255);
-                photoId = img.getId();
+                photoId = getResources().getIdentifier("tablet",
+                        "drawable", getPackageName());
                 break;
 
             case R.id.imgInjection:
@@ -516,7 +519,8 @@ public class AddMedicament extends AppCompatActivity {
                 imgTablet.setCircleBackgroundColor(255);
                 imgCapsule.setCircleBackgroundColor(255);
                 imgLiquid.setCircleBackgroundColor(255);
-                photoId = img.getId();
+                photoId = getResources().getIdentifier("injection",
+                        "drawable", getPackageName());
                 break;
 
             case R.id.imgLiquid:
@@ -529,7 +533,8 @@ public class AddMedicament extends AppCompatActivity {
                 imgTablet.setCircleBackgroundColor(255);
                 imgInjection.setCircleBackgroundColor(255);
                 imgCapsule.setCircleBackgroundColor(255);
-                photoId = img.getId();
+                photoId = getResources().getIdentifier("liquid",
+                        "drawable", getPackageName());
                 break;
         }
     }
@@ -547,6 +552,7 @@ public class AddMedicament extends AppCompatActivity {
             timeReminder10.setVisibility(LinearLayout.GONE);
             timeReminder11.setVisibility(LinearLayout.GONE);
             timeReminder12.setVisibility(LinearLayout.GONE);
+            count = 1;
         } else if (position == 1) {
             timeReminder2.setVisibility(LinearLayout.VISIBLE);
             timeReminder3.setVisibility(LinearLayout.GONE);
@@ -559,6 +565,7 @@ public class AddMedicament extends AppCompatActivity {
             timeReminder10.setVisibility(LinearLayout.GONE);
             timeReminder11.setVisibility(LinearLayout.GONE);
             timeReminder12.setVisibility(LinearLayout.GONE);
+            count = 2;
         } else if (position == 2) {
             timeReminder2.setVisibility(LinearLayout.VISIBLE);
             timeReminder3.setVisibility(LinearLayout.VISIBLE);
@@ -571,6 +578,7 @@ public class AddMedicament extends AppCompatActivity {
             timeReminder10.setVisibility(LinearLayout.GONE);
             timeReminder11.setVisibility(LinearLayout.GONE);
             timeReminder12.setVisibility(LinearLayout.GONE);
+            count = 3;
         } else if (position == 3) {
             timeReminder2.setVisibility(LinearLayout.VISIBLE);
             timeReminder3.setVisibility(LinearLayout.VISIBLE);
@@ -583,6 +591,7 @@ public class AddMedicament extends AppCompatActivity {
             timeReminder10.setVisibility(LinearLayout.GONE);
             timeReminder11.setVisibility(LinearLayout.GONE);
             timeReminder12.setVisibility(LinearLayout.GONE);
+            count = 4;
         } else if (position == 4) {
             timeReminder2.setVisibility(LinearLayout.VISIBLE);
             timeReminder3.setVisibility(LinearLayout.VISIBLE);
@@ -595,6 +604,7 @@ public class AddMedicament extends AppCompatActivity {
             timeReminder10.setVisibility(LinearLayout.GONE);
             timeReminder11.setVisibility(LinearLayout.GONE);
             timeReminder12.setVisibility(LinearLayout.GONE);
+            count = 5;
         } else if (position == 5) {
             timeReminder2.setVisibility(LinearLayout.VISIBLE);
             timeReminder3.setVisibility(LinearLayout.VISIBLE);
@@ -607,6 +617,7 @@ public class AddMedicament extends AppCompatActivity {
             timeReminder10.setVisibility(LinearLayout.GONE);
             timeReminder11.setVisibility(LinearLayout.GONE);
             timeReminder12.setVisibility(LinearLayout.GONE);
+            count = 6;
         } else if (position == 6) {
             timeReminder2.setVisibility(LinearLayout.VISIBLE);
             timeReminder3.setVisibility(LinearLayout.VISIBLE);
@@ -619,6 +630,7 @@ public class AddMedicament extends AppCompatActivity {
             timeReminder10.setVisibility(LinearLayout.GONE);
             timeReminder11.setVisibility(LinearLayout.GONE);
             timeReminder12.setVisibility(LinearLayout.GONE);
+            count = 7;
         } else if (position == 7) {
             timeReminder2.setVisibility(LinearLayout.VISIBLE);
             timeReminder3.setVisibility(LinearLayout.VISIBLE);
@@ -631,6 +643,7 @@ public class AddMedicament extends AppCompatActivity {
             timeReminder10.setVisibility(LinearLayout.GONE);
             timeReminder11.setVisibility(LinearLayout.GONE);
             timeReminder12.setVisibility(LinearLayout.GONE);
+            count = 8;
         } else if (position == 8) {
             timeReminder2.setVisibility(LinearLayout.VISIBLE);
             timeReminder3.setVisibility(LinearLayout.VISIBLE);
@@ -643,6 +656,7 @@ public class AddMedicament extends AppCompatActivity {
             timeReminder10.setVisibility(LinearLayout.GONE);
             timeReminder11.setVisibility(LinearLayout.GONE);
             timeReminder12.setVisibility(LinearLayout.GONE);
+            count = 9;
         } else if (position == 9) {
             timeReminder2.setVisibility(LinearLayout.VISIBLE);
             timeReminder3.setVisibility(LinearLayout.VISIBLE);
@@ -655,6 +669,7 @@ public class AddMedicament extends AppCompatActivity {
             timeReminder10.setVisibility(LinearLayout.VISIBLE);
             timeReminder11.setVisibility(LinearLayout.GONE);
             timeReminder12.setVisibility(LinearLayout.GONE);
+            count = 10;
         } else if (position == 10) {
             timeReminder2.setVisibility(LinearLayout.VISIBLE);
             timeReminder3.setVisibility(LinearLayout.VISIBLE);
@@ -667,6 +682,7 @@ public class AddMedicament extends AppCompatActivity {
             timeReminder10.setVisibility(LinearLayout.VISIBLE);
             timeReminder11.setVisibility(LinearLayout.VISIBLE);
             timeReminder12.setVisibility(LinearLayout.GONE);
+            count = 11;
         } else if (position == 11) {
             timeReminder2.setVisibility(LinearLayout.VISIBLE);
             timeReminder3.setVisibility(LinearLayout.VISIBLE);
@@ -679,6 +695,7 @@ public class AddMedicament extends AppCompatActivity {
             timeReminder10.setVisibility(LinearLayout.VISIBLE);
             timeReminder11.setVisibility(LinearLayout.VISIBLE);
             timeReminder12.setVisibility(LinearLayout.VISIBLE);
+            count = 12;
         }
     }
 
@@ -686,7 +703,7 @@ public class AddMedicament extends AppCompatActivity {
         if (!validateName()) {
             return;
         }
-        try{
+        try {
             db = new Database(this);
             PillRegister pillRegister = new PillRegister();
 
@@ -704,9 +721,9 @@ public class AddMedicament extends AppCompatActivity {
 
             RadioButton radioButtonFrequency = findViewById(rdbGrFrequency.getCheckedRadioButtonId());
             String frequency;
-            if(radioButtonFrequency.getText().toString().equals("Every day"))
+            if (radioButtonFrequency.getText().toString().equals("Every day"))
                 frequency = "Everyday";
-            else if(radioButtonFrequency.getText().toString().equals("Specific days of week"))
+            else if (radioButtonFrequency.getText().toString().equals("Specific days of week"))
                 frequency = txtSpecificDays.getText().toString();
             else
                 frequency = txtDaysInterval.getText().toString();
@@ -718,20 +735,14 @@ public class AddMedicament extends AppCompatActivity {
 
             db.addPill(pillRegister);
 
-            ReminderRegister reminderRegister = new ReminderRegister();
-            Integer hour = Integer.parseInt(timePicker.getText().toString().split(":")[0]);
-            Integer minutes = Integer.parseInt(timePicker.getText().toString().split(":")[1]);
-            reminderRegister.setHour(hour);
-            reminderRegister.setMinutes(minutes);
-            reminderRegister.setQuantity(quantity.getText().toString().split(" ")[1]);
-
-            db.addReminder(reminderRegister, pillRegister.getPillName());
+            List<ReminderRegister> reminderRegisterList = getReminders(count);
+            for (int i = 0; i < reminderRegisterList.size(); i++)
+                db.addReminder(reminderRegisterList.get(i), pillRegister.getPillName());
             db.close();
 
             Toast.makeText(getApplicationContext(), "Saved!", Toast.LENGTH_SHORT).show();
-        }
-        catch (Exception e){
-
+        } catch (Exception e) {
+            System.err.println(e);
         }
 
     }
@@ -759,6 +770,133 @@ public class AddMedicament extends AppCompatActivity {
         DialogFragment newFragment = new TimePickerFragment();
         ((TimePickerFragment) newFragment).setTimePicker(timePicker);
         newFragment.show(getSupportFragmentManager(), "timePicker");
+    }
+
+    public List<ReminderRegister> getReminders(int count) {
+        List<ReminderRegister> reminderRegisterList = new ArrayList<>();
+
+        if (count == 1) {
+            reminderRegisterList.add(getReminderRegister(timePicker, quantity));
+        }
+        if (count == 2) {
+            reminderRegisterList.add(getReminderRegister(timePicker, quantity));
+            reminderRegisterList.add(getReminderRegister(timePicker2, quantity2));
+        }
+        if (count == 3) {
+            reminderRegisterList.add(getReminderRegister(timePicker, quantity));
+            reminderRegisterList.add(getReminderRegister(timePicker2, quantity2));
+            reminderRegisterList.add(getReminderRegister(timePicker3, quantity3));
+        }
+        if (count == 4) {
+            reminderRegisterList.add(getReminderRegister(timePicker, quantity));
+            reminderRegisterList.add(getReminderRegister(timePicker2, quantity2));
+            reminderRegisterList.add(getReminderRegister(timePicker3, quantity3));
+            reminderRegisterList.add(getReminderRegister(timePicker4, quantity4));
+        }
+        if (count == 5) {
+            reminderRegisterList.add(getReminderRegister(timePicker, quantity));
+            reminderRegisterList.add(getReminderRegister(timePicker2, quantity2));
+            reminderRegisterList.add(getReminderRegister(timePicker3, quantity3));
+            reminderRegisterList.add(getReminderRegister(timePicker4, quantity4));
+            reminderRegisterList.add(getReminderRegister(timePicker5, quantity5));
+
+        }
+        if (count == 6) {
+            reminderRegisterList.add(getReminderRegister(timePicker, quantity));
+            reminderRegisterList.add(getReminderRegister(timePicker2, quantity2));
+            reminderRegisterList.add(getReminderRegister(timePicker3, quantity3));
+            reminderRegisterList.add(getReminderRegister(timePicker4, quantity4));
+            reminderRegisterList.add(getReminderRegister(timePicker5, quantity5));
+            reminderRegisterList.add(getReminderRegister(timePicker6, quantity6));
+
+        }
+        if (count == 7) {
+            reminderRegisterList.add(getReminderRegister(timePicker, quantity));
+            reminderRegisterList.add(getReminderRegister(timePicker2, quantity2));
+            reminderRegisterList.add(getReminderRegister(timePicker3, quantity3));
+            reminderRegisterList.add(getReminderRegister(timePicker4, quantity4));
+            reminderRegisterList.add(getReminderRegister(timePicker5, quantity5));
+            reminderRegisterList.add(getReminderRegister(timePicker6, quantity6));
+            reminderRegisterList.add(getReminderRegister(timePicker7, quantity7));
+
+        }
+        if (count == 8) {
+            reminderRegisterList.add(getReminderRegister(timePicker, quantity));
+            reminderRegisterList.add(getReminderRegister(timePicker2, quantity2));
+            reminderRegisterList.add(getReminderRegister(timePicker3, quantity3));
+            reminderRegisterList.add(getReminderRegister(timePicker4, quantity4));
+            reminderRegisterList.add(getReminderRegister(timePicker5, quantity5));
+            reminderRegisterList.add(getReminderRegister(timePicker6, quantity6));
+            reminderRegisterList.add(getReminderRegister(timePicker7, quantity7));
+            reminderRegisterList.add(getReminderRegister(timePicker8, quantity8));
+
+        }
+        if (count == 9) {
+            reminderRegisterList.add(getReminderRegister(timePicker, quantity));
+            reminderRegisterList.add(getReminderRegister(timePicker2, quantity2));
+            reminderRegisterList.add(getReminderRegister(timePicker3, quantity3));
+            reminderRegisterList.add(getReminderRegister(timePicker4, quantity4));
+            reminderRegisterList.add(getReminderRegister(timePicker5, quantity5));
+            reminderRegisterList.add(getReminderRegister(timePicker6, quantity6));
+            reminderRegisterList.add(getReminderRegister(timePicker7, quantity7));
+            reminderRegisterList.add(getReminderRegister(timePicker8, quantity8));
+            reminderRegisterList.add(getReminderRegister(timePicker9, quantity9));
+
+        }
+        if (count == 10) {
+            reminderRegisterList.add(getReminderRegister(timePicker, quantity));
+            reminderRegisterList.add(getReminderRegister(timePicker2, quantity2));
+            reminderRegisterList.add(getReminderRegister(timePicker3, quantity3));
+            reminderRegisterList.add(getReminderRegister(timePicker4, quantity4));
+            reminderRegisterList.add(getReminderRegister(timePicker5, quantity5));
+            reminderRegisterList.add(getReminderRegister(timePicker6, quantity6));
+            reminderRegisterList.add(getReminderRegister(timePicker7, quantity7));
+            reminderRegisterList.add(getReminderRegister(timePicker8, quantity8));
+            reminderRegisterList.add(getReminderRegister(timePicker9, quantity9));
+            reminderRegisterList.add(getReminderRegister(timePicker10, quantity10));
+
+        }
+        if (count == 11) {
+            reminderRegisterList.add(getReminderRegister(timePicker, quantity));
+            reminderRegisterList.add(getReminderRegister(timePicker2, quantity2));
+            reminderRegisterList.add(getReminderRegister(timePicker3, quantity3));
+            reminderRegisterList.add(getReminderRegister(timePicker4, quantity4));
+            reminderRegisterList.add(getReminderRegister(timePicker5, quantity5));
+            reminderRegisterList.add(getReminderRegister(timePicker6, quantity6));
+            reminderRegisterList.add(getReminderRegister(timePicker7, quantity7));
+            reminderRegisterList.add(getReminderRegister(timePicker8, quantity8));
+            reminderRegisterList.add(getReminderRegister(timePicker9, quantity9));
+            reminderRegisterList.add(getReminderRegister(timePicker10, quantity10));
+            reminderRegisterList.add(getReminderRegister(timePicker11, quantity11));
+
+        }
+        if (count == 12) {
+            reminderRegisterList.add(getReminderRegister(timePicker, quantity));
+            reminderRegisterList.add(getReminderRegister(timePicker2, quantity2));
+            reminderRegisterList.add(getReminderRegister(timePicker3, quantity3));
+            reminderRegisterList.add(getReminderRegister(timePicker4, quantity4));
+            reminderRegisterList.add(getReminderRegister(timePicker5, quantity5));
+            reminderRegisterList.add(getReminderRegister(timePicker6, quantity6));
+            reminderRegisterList.add(getReminderRegister(timePicker7, quantity7));
+            reminderRegisterList.add(getReminderRegister(timePicker8, quantity8));
+            reminderRegisterList.add(getReminderRegister(timePicker9, quantity9));
+            reminderRegisterList.add(getReminderRegister(timePicker10, quantity10));
+            reminderRegisterList.add(getReminderRegister(timePicker11, quantity11));
+            reminderRegisterList.add(getReminderRegister(timePicker12, quantity12));
+
+        }
+        return reminderRegisterList;
+    }
+
+    public ReminderRegister getReminderRegister(Button timePicker, Button quantity) {
+        ReminderRegister reminderRegister = new ReminderRegister();
+        Integer hour = Integer.parseInt(timePicker.getText().toString().split(":")[0]);
+        Integer minutes = Integer.parseInt(timePicker.getText().toString().split(":")[1]);
+        reminderRegister.setHour(hour);
+        reminderRegister.setMinutes(minutes);
+        reminderRegister.setQuantity(quantity.getText().toString().split(" ")[1]);
+
+        return reminderRegister;
     }
 
 

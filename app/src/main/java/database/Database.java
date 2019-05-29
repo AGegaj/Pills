@@ -10,7 +10,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import model.PillBoxDataResult;
+import model.PillDataResult;
 import model.PillRegister;
+import model.ReminderDataResult;
 import model.ReminderRegister;
 
 public class Database extends SQLiteOpenHelper {
@@ -30,6 +33,7 @@ public class Database extends SQLiteOpenHelper {
     public static final String pill_duration = "Duration";
     public static final String pill_frequency = "Frequency";
     public static final String pill_status = "Status";
+    public static final String pill_reminders = "Reminder";
 
     // REMINDER TABLE //
     public static final String reminder_id = "id";
@@ -51,7 +55,7 @@ public class Database extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         final String CREATE_PILL_TABLE = "CREATE TABLE "+TABLE_PILL+" ("+pill_id+" INTEGER PRIMARY KEY AUTOINCREMENT,"+pill_name+" nVarchar(100) NOT NULL UNIQUE,"+pill_photoId+" INTEGER NOT NULL,"+pill_start+
-                " DATETIME NOT NULL,"+pill_duration+" nVarchar(255) NOT NULL,"+pill_frequency+" nVarchar(255) NOT NULL,"+pill_status+" TEXT NOT NULL)";
+                " DATETIME NOT NULL,"+pill_duration+" nVarchar(255) NOT NULL,"+pill_frequency+" nVarchar(255) NOT NULL,"+pill_reminders+" nVarchar(255) NOT NULL,"+pill_status+" TEXT NOT NULL)";
         db.execSQL(CREATE_PILL_TABLE);
 
         final String CREATE_REMINDER_TABLE = "CREATE TABLE "+TABLE_REMINDER+" ("+reminder_id+" INTEGER  PRIMARY KEY AUTOINCREMENT,"+reminder_hour+" INTEGER NOT NULL, "+reminder_minutes+" INTEGER NOT NULL,"+
@@ -71,17 +75,21 @@ public class Database extends SQLiteOpenHelper {
     }
 
 
-    public ArrayList<String> getReminders() {
-        ArrayList<String> reminders = new ArrayList<>();
+    public ArrayList<ReminderDataResult> getReminders(Integer pillId) {
+        ArrayList<ReminderDataResult> reminders = new ArrayList<>();
 
-        String selectQuery = "SELECT * FROM "+TABLE_PILL;
+        String selectQuery = "SELECT * FROM "+TABLE_REMINDER+" WHERE "+reminder_pill_id+"="+pillId;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
             do {
-                reminders.add(cursor.getString(1));
+                ReminderDataResult reminderDataResult = new ReminderDataResult();
+                reminderDataResult.setHour(Integer.parseInt(cursor.getString(1)));
+                reminderDataResult.setMinutes(Integer.parseInt(cursor.getString(2)));
+                reminderDataResult.setQuantity(cursor.getString(3));
+                reminders.add(reminderDataResult);
             } while (cursor.moveToNext());
         }
 
@@ -105,24 +113,39 @@ public class Database extends SQLiteOpenHelper {
         db.close();
     }
 
-    public ArrayList<String> getSongsByName() {
-        ArrayList<String> songs = new ArrayList<>();
+    public PillDataResult getPillByName(String name) {
+        PillDataResult pillDataResult = new PillDataResult();
 
-        String selectQuery = "SELECT * FROM "+TABLE_PILL;
+        String selectQuery = "SELECT * FROM "+TABLE_PILL+" Where "+pill_name+"='"+name+"'";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
         if (cursor.moveToFirst()) {
             do {
-                songs.add(cursor.getString(1));
+                try {
+                    Date start=dateFormat.parse(cursor.getString(3));
+
+                    pillDataResult.setId(Integer.parseInt(cursor.getString(0)));
+                    pillDataResult.setPillName(cursor.getString(1));
+                    pillDataResult.setPhotoId(Integer.parseInt(cursor.getString(2)));
+                    pillDataResult.setStart(start);
+                    pillDataResult.setFrequency(cursor.getString(5));
+                    pillDataResult.setReminderTimes(cursor.getString(6));
+                }catch (Exception e){
+
+                }
+
             } while (cursor.moveToNext());
         }
 
         cursor.close();
         db.close();
-        return songs;
+        return pillDataResult;
     }
+
+
 
     public void addPill(PillRegister pillRegister) {
 
@@ -136,13 +159,14 @@ public class Database extends SQLiteOpenHelper {
         values.put(pill_duration, pillRegister.getDuration());
         values.put(pill_frequency, pillRegister.getFrequency());
         values.put(pill_status, pillRegister.getStatus());
+        values.put(pill_reminders, pillRegister.getReminder());
 
         db.insert(TABLE_PILL, null, values);
         db.close();
     }
 
-    public ArrayList<String> getPills() {
-        ArrayList<String> pills = new ArrayList<>();
+    public ArrayList<PillBoxDataResult> getActivePills() {
+        ArrayList<PillBoxDataResult> pills = new ArrayList<>();
 
         String selectQuery = "SELECT * FROM "+TABLE_PILL;
 
@@ -151,7 +175,10 @@ public class Database extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                pills.add(cursor.getString(1));
+                PillBoxDataResult pillBoxDataResult = new PillBoxDataResult();
+                pillBoxDataResult.setPillName(cursor.getString(1));
+                pillBoxDataResult.setPhotoId(Integer.parseInt(cursor.getString(2)));
+                pills.add(pillBoxDataResult);
             } while (cursor.moveToNext());
         }
 
@@ -159,6 +186,30 @@ public class Database extends SQLiteOpenHelper {
         db.close();
         return pills;
     }
+
+    public ArrayList<PillBoxDataResult> getInActivePills() {
+        ArrayList<PillBoxDataResult> pills = new ArrayList<>();
+
+        String selectQuery = "SELECT * FROM "+TABLE_PILL+" WHERE "+pill_status+"=INACTIVE";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                PillBoxDataResult pillBoxDataResult = new PillBoxDataResult();
+                pillBoxDataResult.setPillName(cursor.getString(1));
+                pillBoxDataResult.setPhotoId(Integer.parseInt(cursor.getString(2)));
+                pills.add(pillBoxDataResult);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return pills;
+    }
+
+
 
     public void addReminderToPill(Integer reminderId, String pillName) {
 
@@ -171,6 +222,17 @@ public class Database extends SQLiteOpenHelper {
                         " FROM "+TABLE_PILL+
                         " WHERE "+pill_name+"=?),?)",
                 new Object[]{ pillName, reminderId });
+        db.close();
+    }
+
+    public void delete(String pillName) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.execSQL("UPDATE "+TABLE_PILL+
+                        " SET "+pill_status+"=INACTIVE WHERE "+
+                        pill_name+"="+pillName);
+
         db.close();
     }
 }

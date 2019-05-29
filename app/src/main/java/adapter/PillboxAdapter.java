@@ -2,7 +2,6 @@ package adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -18,17 +17,15 @@ import org.unipr.pills.R;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import fragment.PillboxFragment;
 
 public class PillboxAdapter extends RecyclerView.Adapter<PillboxAdapter.ViewHolder> {
 
-
-    private ArrayList<String> pillPhotoData = new ArrayList<>();
+    private ArrayList<Integer> pillPhotoData = new ArrayList<>();
     private ArrayList<String> pillNameData = new ArrayList<>();
 
     private Context context;
 
-    public PillboxAdapter(Context context, ArrayList<String> pillPhoto, ArrayList<String> pillName) {
+    public PillboxAdapter(Context context, ArrayList<Integer> pillPhoto, ArrayList<String> pillName) {
         pillPhotoData = pillPhoto;
         pillNameData = pillName;
         this.context = context;
@@ -46,13 +43,15 @@ public class PillboxAdapter extends RecyclerView.Adapter<PillboxAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull PillboxAdapter.ViewHolder holder, final int position) {
         holder.tvPillName.setText(pillNameData.get(position));
-        holder.imgPillPhoto.setImageResource(R.drawable.capsule);
+        holder.imgPillPhoto.setImageResource(pillPhotoData.get(position));
+        holder.imgPillPhoto.setBorderColor(context.getColor(R.color.colorAccent));
 
         holder.pillbox_items_parent_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AppCompatActivity activity = (AppCompatActivity) v.getContext();
                 Intent intent = new Intent(activity, PillActivity.class);
+                intent.putExtra("pillName", pillNameData.get(position));
                 context.startActivity(intent);
 
             }
@@ -64,7 +63,7 @@ public class PillboxAdapter extends RecyclerView.Adapter<PillboxAdapter.ViewHold
         return pillNameData.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvPillName;
         CircleImageView imgPillPhoto;
         LinearLayout pillbox_items_parent_layout;

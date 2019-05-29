@@ -17,7 +17,9 @@ import org.unipr.pills.R;
 import java.util.ArrayList;
 
 import adapter.PillboxAdapter;
+import database.Database;
 import de.hdodenhof.circleimageview.CircleImageView;
+import model.PillBoxDataResult;
 
 public class PillboxFragment extends Fragment {
 
@@ -27,7 +29,8 @@ public class PillboxFragment extends Fragment {
 
 
     private ArrayList<String> pillNameData = new ArrayList<String>();
-    private ArrayList<String> pillPhotoData = new ArrayList<String>();
+    private ArrayList<Integer> pillPhotoData = new ArrayList<Integer>();
+    private Database db;
 
     TextView tvPillName;
     CircleImageView imgPill;
@@ -44,36 +47,42 @@ public class PillboxFragment extends Fragment {
 
         initPillboxList();
         recyclerView = view.findViewById(R.id.recycler_view_pillbox);
-        adapter = new PillboxAdapter(this.getContext(),pillPhotoData,pillNameData);
+        adapter = new PillboxAdapter(this.getContext(), pillPhotoData, pillNameData);
         recyclerView.setAdapter(adapter);
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
         return view;
     }
+
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         toolbarPillbox.setTitle("Pillbox");
 
     }
+
     @Override
     public void onStop() {
         super.onStop();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
     }
 
-    private void initPillboxList(){
+    private void initPillboxList() {
+        try {
+            db = new Database(getContext());
+            ArrayList<PillBoxDataResult> pillBoxList = db.getActivePills();
+            for (PillBoxDataResult pill : pillBoxList) {
+                pillNameData.add(pill.getPillName());
+                pillPhotoData.add(pill.getPhotoId());
+            }
 
-        pillNameData.add("Paracetamol");
-        pillPhotoData.add("capsule");
+            db.close();
+        } catch (Exception e) {
+            System.err.println(e);
+        }
 
-        pillNameData.add("Kamagra");
-        pillPhotoData.add("capsule");
-
-        pillNameData.add("Andoll");
-        pillPhotoData.add("capsule");
 
     }
 

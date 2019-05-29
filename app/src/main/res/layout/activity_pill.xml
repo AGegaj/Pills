@@ -43,14 +43,13 @@
                 android:src="@drawable/tablet"/>
 
             <TextView
-                android:id="@+id/pillName"
+                android:id="@+id/txtPill"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
                 android:shadowColor="@android:color/black"
                 android:textStyle="bold"
-                android:text="Kamagra"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -70,25 +69,17 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="20dp"
                     android:textSize="16sp"
-                    android:id="@+id/txtReminder"
-                    android:text="2 times a day"
+                    android:id="@+id/txtPillReminder"
                     android:textColor="@android:color/black"/>
-                <TextView
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view_reminders"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="15dp"
-                    android:textSize="16sp"
-                    android:id="@+id/time1"
-                    android:text="8:00 AM 1.0 pill(s)" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="15dp"
-                    android:textSize="16sp"
-                    android:id="@+id/time2"
-                    android:text="12:00 AM 1.0 pill(s)" />
+                    android:layout_height="match_parent">
+
+                </android.support.v7.widget.RecyclerView>
+
 
                 <View
                     android:id="@+id/divide1"
@@ -104,9 +95,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="25dp"
-                    android:id="@+id/duration"
+                    android:id="@+id/txtPillDuration"
                     android:textSize="16sp"
-                    android:text="Everyday"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"/>
                 <View
@@ -125,7 +115,6 @@
                     android:layout_marginTop="25dp"
                     android:textSize="16sp"
                     android:id="@+id/fromSchedule"
-                    android:text="From today"
                     android:layout_marginBottom="5dp"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"/>
