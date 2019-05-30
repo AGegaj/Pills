@@ -1,9 +1,11 @@
 package org.unipr.pills;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -37,6 +39,7 @@ import fragment.QuantityFragment;
 import fragment.TimePickerFragment;
 import model.PillDataResult;
 import model.PillRegister;
+import model.ReminderDataResult;
 import model.ReminderRegister;
 
 public class UpdateMedicament extends AppCompatActivity {
@@ -67,6 +70,9 @@ public class UpdateMedicament extends AppCompatActivity {
     int month;
     int dayOfMonth;
     int count;
+    Integer pId;
+    String pillNam;
+    List<Integer> reminderIdList;
     Calendar calendar;
     private CircleImageView imgCapsule, imgTablet, imgLiquid, imgInjection;
 
@@ -135,8 +141,8 @@ public class UpdateMedicament extends AppCompatActivity {
         daysnum = findViewById(R.id.daysnum);
 
         Bundle extras = getIntent().getExtras();
-        String pillNam = extras.getString("pillName");
-        Integer pId = extras.getInt("pillId");
+        pillNam = extras.getString("pillName");
+        pId = extras.getInt("pillId");
 
 
         imgCapsule.setBorderColor(getColor(R.color.colorAccent));
@@ -238,8 +244,20 @@ public class UpdateMedicament extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent main = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(main);
+                new AlertDialog.Builder(UpdateMedicament.this)
+                        .setTitle("Quit")
+                        .setMessage("Are you sure you want to quit without saving?")
+
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent main = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(main);
+
+                            }
+                        })
+
+                        .setNegativeButton(android.R.string.no, null)
+                        .show();
             }
         });
 
@@ -533,14 +551,18 @@ public class UpdateMedicament extends AppCompatActivity {
             pillRegister.setReminder(spnReminder.getSelectedItem().toString());
             pillRegister.setStatus("ACTIVE");
 
-            db.addPill(pillRegister);
+            db.updatePill(pillRegister, pId);
+            db.deleteReminder(pId);
 
             List<ReminderRegister> reminderRegisterList = getReminders(count);
             for (int i = 0; i < reminderRegisterList.size(); i++)
-                db.addReminder(reminderRegisterList.get(i), pillRegister.getPillName());
+                db.addReminder(reminderRegisterList.get(i), pillNam);
             db.close();
 
-            Toast.makeText(getApplicationContext(), "Saved!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+
+            Toast.makeText(getApplicationContext(), "Updated!", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             System.err.println(e);
         }
@@ -922,6 +944,9 @@ public class UpdateMedicament extends AppCompatActivity {
             inputName.setText(pill.getPillName());
             Integer imageId = pill.getPhotoId();
 
+            scheduleDate.setText(dateFormat.format(pill.getStart()));
+
+
             if (imageId == getResources().getIdentifier("capsule",
                     "drawable", getPackageName())) {
                 setBorder(imgCapsule);
@@ -940,33 +965,214 @@ public class UpdateMedicament extends AppCompatActivity {
                 setBorder(imgInjection);
             }
 
-            if(pill.getDuration().equals("Continuous"))
+            if (pill.getDuration().equals("Continuous"))
                 rdbContinuous.setChecked(true);
-            else
-            {
+            else {
                 numbOfDay.setChecked(true);
+                daysnum.setVisibility(View.VISIBLE);
                 daysnum.setText(pill.getDuration());
             }
 
             String frequencyPill = pill.getFrequency();
             if (frequencyPill.equals("Everyday")) {
                 rdbEveryDay.setChecked(true);
-            }else if (frequencyPill.split(" ")[0].equals("every")) {
+            } else if (frequencyPill.split(" ")[0].equals("every")) {
                 intervalDays.setChecked(true);
                 txtDaysInterval.setText(frequencyPill);
-            }else{
+                txtDaysInterval.setVisibility(View.VISIBLE);
+            } else {
                 txtSpecificDays.setText(frequencyPill);
+                txtSpecificDays.setVisibility(View.VISIBLE);
                 rdbDayPicker.setChecked(true);
 
+            }
+            List<ReminderDataResult> reminderDataResultList = db.getReminders(id);
+            for (int i = 0; i < spnReminder.getCount(); i++) {
+                if (spnReminder.getItemAtPosition(i).toString().equalsIgnoreCase(pill.getReminderTimes())) {
+                    spnReminder.setSelection(i);
+                    setReminder(reminderDataResultList, i);
+                }
             }
 
 
 
-            scheduleDate.setText(dateFormat.format(pill.getStart()));
-
-
         } catch (Exception e) {
             System.err.println(e);
+        }
+
+    }
+
+    public void setReminder(List<ReminderDataResult> reminder, int i) {
+        if (i == 0) {
+            timePicker.setText(reminder.get(0).getHour() + ":" + reminder.get(0).getMinutes());
+            quantity.setText("Take " + reminder.get(0).getQuantity());
+            reminderIdList.add(reminder.get(0).getId());
+        } else if (i == 1) {
+            timePicker.setText(reminder.get(0).getHour() + ":" + reminder.get(0).getMinutes());
+            quantity.setText("Take " + reminder.get(0).getQuantity());
+            timePicker2.setText(reminder.get(1).getHour() + ":" + reminder.get(1).getMinutes());
+            quantity2.setText("Take " + reminder.get(1).getQuantity());
+
+        } else if (i == 2) {
+            timePicker.setText(reminder.get(0).getHour() + ":" + reminder.get(0).getMinutes());
+            quantity.setText("Take " + reminder.get(0).getQuantity());
+            timePicker2.setText(reminder.get(1).getHour() + ":" + reminder.get(1).getMinutes());
+            quantity2.setText("Take " + reminder.get(1).getQuantity());
+            timePicker3.setText(reminder.get(2).getHour() + ":" + reminder.get(2).getMinutes());
+            quantity3.setText("Take " + reminder.get(2).getQuantity());
+        } else if (i == 3) {
+            timePicker.setText(reminder.get(0).getHour() + ":" + reminder.get(0).getMinutes());
+            quantity.setText("Take " + reminder.get(0).getQuantity());
+            timePicker2.setText(reminder.get(1).getHour() + ":" + reminder.get(1).getMinutes());
+            quantity2.setText("Take " + reminder.get(1).getQuantity());
+            timePicker3.setText(reminder.get(2).getHour() + ":" + reminder.get(2).getMinutes());
+            quantity3.setText("Take " + reminder.get(2).getQuantity());
+            timePicker4.setText(reminder.get(3).getHour() + ":" + reminder.get(3).getMinutes());
+            quantity4.setText("Take " + reminder.get(3).getQuantity());
+        } else if (i == 4) {
+            timePicker.setText(reminder.get(0).getHour() + ":" + reminder.get(0).getMinutes());
+            quantity.setText("Take " + reminder.get(0).getQuantity());
+            timePicker2.setText(reminder.get(1).getHour() + ":" + reminder.get(1).getMinutes());
+            quantity2.setText("Take " + reminder.get(1).getQuantity());
+            timePicker3.setText(reminder.get(2).getHour() + ":" + reminder.get(2).getMinutes());
+            quantity3.setText("Take " + reminder.get(2).getQuantity());
+            timePicker4.setText(reminder.get(3).getHour() + ":" + reminder.get(3).getMinutes());
+            quantity4.setText("Take " + reminder.get(3).getQuantity());
+            timePicker5.setText(reminder.get(4).getHour() + ":" + reminder.get(4).getMinutes());
+            quantity5.setText("Take " + reminder.get(4).getQuantity());
+        } else if (i == 5) {
+            timePicker.setText(reminder.get(0).getHour() + ":" + reminder.get(0).getMinutes());
+            quantity.setText("Take " + reminder.get(0).getQuantity());
+            timePicker2.setText(reminder.get(1).getHour() + ":" + reminder.get(1).getMinutes());
+            quantity2.setText("Take " + reminder.get(1).getQuantity());
+            timePicker3.setText(reminder.get(2).getHour() + ":" + reminder.get(2).getMinutes());
+            quantity3.setText("Take " + reminder.get(2).getQuantity());
+            timePicker4.setText(reminder.get(3).getHour() + ":" + reminder.get(3).getMinutes());
+            quantity4.setText("Take " + reminder.get(3).getQuantity());
+            timePicker5.setText(reminder.get(4).getHour() + ":" + reminder.get(4).getMinutes());
+            quantity5.setText("Take " + reminder.get(4).getQuantity());
+            timePicker6.setText(reminder.get(5).getHour() + ":" + reminder.get(5).getMinutes());
+            quantity6.setText("Take " + reminder.get(5).getQuantity());
+        } else if (i == 6) {
+            timePicker.setText(reminder.get(0).getHour() + ":" + reminder.get(0).getMinutes());
+            quantity.setText("Take " + reminder.get(0).getQuantity());
+            timePicker2.setText(reminder.get(1).getHour() + ":" + reminder.get(1).getMinutes());
+            quantity2.setText("Take " + reminder.get(1).getQuantity());
+            timePicker3.setText(reminder.get(2).getHour() + ":" + reminder.get(2).getMinutes());
+            quantity3.setText("Take " + reminder.get(2).getQuantity());
+            timePicker4.setText(reminder.get(3).getHour() + ":" + reminder.get(3).getMinutes());
+            quantity4.setText("Take " + reminder.get(3).getQuantity());
+            timePicker5.setText(reminder.get(4).getHour() + ":" + reminder.get(4).getMinutes());
+            quantity5.setText("Take " + reminder.get(4).getQuantity());
+            timePicker6.setText(reminder.get(5).getHour() + ":" + reminder.get(5).getMinutes());
+            quantity6.setText("Take " + reminder.get(5).getQuantity());
+            timePicker7.setText(reminder.get(6).getHour() + ":" + reminder.get(6).getMinutes());
+            quantity7.setText("Take " + reminder.get(6).getQuantity());
+        } else if (i == 7) {
+            timePicker.setText(reminder.get(0).getHour() + ":" + reminder.get(0).getMinutes());
+            quantity.setText("Take " + reminder.get(0).getQuantity());
+            timePicker2.setText(reminder.get(1).getHour() + ":" + reminder.get(1).getMinutes());
+            quantity2.setText("Take " + reminder.get(1).getQuantity());
+            timePicker3.setText(reminder.get(2).getHour() + ":" + reminder.get(2).getMinutes());
+            quantity3.setText("Take " + reminder.get(2).getQuantity());
+            timePicker4.setText(reminder.get(3).getHour() + ":" + reminder.get(3).getMinutes());
+            quantity4.setText("Take " + reminder.get(3).getQuantity());
+            timePicker5.setText(reminder.get(4).getHour() + ":" + reminder.get(4).getMinutes());
+            quantity5.setText("Take " + reminder.get(4).getQuantity());
+            timePicker6.setText(reminder.get(5).getHour() + ":" + reminder.get(5).getMinutes());
+            quantity6.setText("Take " + reminder.get(5).getQuantity());
+            timePicker7.setText(reminder.get(6).getHour() + ":" + reminder.get(6).getMinutes());
+            quantity7.setText("Take " + reminder.get(6).getQuantity());
+            timePicker8.setText(reminder.get(7).getHour() + ":" + reminder.get(7).getMinutes());
+            quantity8.setText("Take " + reminder.get(7).getQuantity());
+        } else if (i == 8) {
+            timePicker.setText(reminder.get(0).getHour() + ":" + reminder.get(0).getMinutes());
+            quantity.setText("Take " + reminder.get(0).getQuantity());
+            timePicker2.setText(reminder.get(1).getHour() + ":" + reminder.get(1).getMinutes());
+            quantity2.setText("Take " + reminder.get(1).getQuantity());
+            timePicker3.setText(reminder.get(2).getHour() + ":" + reminder.get(2).getMinutes());
+            quantity3.setText("Take " + reminder.get(2).getQuantity());
+            timePicker4.setText(reminder.get(3).getHour() + ":" + reminder.get(3).getMinutes());
+            quantity4.setText("Take " + reminder.get(3).getQuantity());
+            timePicker5.setText(reminder.get(4).getHour() + ":" + reminder.get(4).getMinutes());
+            quantity5.setText("Take " + reminder.get(4).getQuantity());
+            timePicker6.setText(reminder.get(5).getHour() + ":" + reminder.get(5).getMinutes());
+            quantity6.setText("Take " + reminder.get(5).getQuantity());
+            timePicker7.setText(reminder.get(6).getHour() + ":" + reminder.get(6).getMinutes());
+            quantity7.setText("Take " + reminder.get(6).getQuantity());
+            timePicker8.setText(reminder.get(7).getHour() + ":" + reminder.get(7).getMinutes());
+            quantity8.setText("Take " + reminder.get(7).getQuantity());
+            timePicker9.setText(reminder.get(8).getHour() + ":" + reminder.get(8).getMinutes());
+            quantity9.setText("Take " + reminder.get(8).getQuantity());
+        } else if (i == 9) {
+            timePicker.setText(reminder.get(0).getHour() + ":" + reminder.get(0).getMinutes());
+            quantity.setText("Take " + reminder.get(0).getQuantity());
+            timePicker2.setText(reminder.get(1).getHour() + ":" + reminder.get(1).getMinutes());
+            quantity2.setText("Take " + reminder.get(1).getQuantity());
+            timePicker3.setText(reminder.get(2).getHour() + ":" + reminder.get(2).getMinutes());
+            quantity3.setText("Take " + reminder.get(2).getQuantity());
+            timePicker4.setText(reminder.get(3).getHour() + ":" + reminder.get(3).getMinutes());
+            quantity4.setText("Take " + reminder.get(3).getQuantity());
+            timePicker5.setText(reminder.get(4).getHour() + ":" + reminder.get(4).getMinutes());
+            quantity5.setText("Take " + reminder.get(4).getQuantity());
+            timePicker6.setText(reminder.get(5).getHour() + ":" + reminder.get(5).getMinutes());
+            quantity6.setText("Take " + reminder.get(5).getQuantity());
+            timePicker7.setText(reminder.get(6).getHour() + ":" + reminder.get(6).getMinutes());
+            quantity7.setText("Take " + reminder.get(6).getQuantity());
+            timePicker8.setText(reminder.get(7).getHour() + ":" + reminder.get(7).getMinutes());
+            quantity8.setText("Take " + reminder.get(7).getQuantity());
+            timePicker9.setText(reminder.get(8).getHour() + ":" + reminder.get(8).getMinutes());
+            quantity9.setText("Take " + reminder.get(8).getQuantity());
+            timePicker10.setText(reminder.get(9).getHour() + ":" + reminder.get(9).getMinutes());
+            quantity10.setText("Take " + reminder.get(9).getQuantity());
+        } else if (i == 10) {
+            timePicker.setText(reminder.get(0).getHour() + ":" + reminder.get(0).getMinutes());
+            quantity.setText("Take " + reminder.get(0).getQuantity());
+            timePicker2.setText(reminder.get(1).getHour() + ":" + reminder.get(1).getMinutes());
+            quantity2.setText("Take " + reminder.get(1).getQuantity());
+            timePicker3.setText(reminder.get(2).getHour() + ":" + reminder.get(2).getMinutes());
+            quantity3.setText("Take " + reminder.get(2).getQuantity());
+            timePicker4.setText(reminder.get(3).getHour() + ":" + reminder.get(3).getMinutes());
+            quantity4.setText("Take " + reminder.get(3).getQuantity());
+            timePicker5.setText(reminder.get(4).getHour() + ":" + reminder.get(4).getMinutes());
+            quantity5.setText("Take " + reminder.get(4).getQuantity());
+            timePicker6.setText(reminder.get(5).getHour() + ":" + reminder.get(5).getMinutes());
+            quantity6.setText("Take " + reminder.get(5).getQuantity());
+            timePicker7.setText(reminder.get(6).getHour() + ":" + reminder.get(6).getMinutes());
+            quantity7.setText("Take " + reminder.get(6).getQuantity());
+            timePicker8.setText(reminder.get(7).getHour() + ":" + reminder.get(7).getMinutes());
+            quantity8.setText("Take " + reminder.get(7).getQuantity());
+            timePicker9.setText(reminder.get(8).getHour() + ":" + reminder.get(8).getMinutes());
+            quantity9.setText("Take " + reminder.get(8).getQuantity());
+            timePicker10.setText(reminder.get(9).getHour() + ":" + reminder.get(9).getMinutes());
+            quantity10.setText("Take " + reminder.get(9).getQuantity());
+            timePicker11.setText(reminder.get(10).getHour() + ":" + reminder.get(10).getMinutes());
+            quantity11.setText("Take " + reminder.get(10).getQuantity());
+        } else if (i == 11) {
+            timePicker.setText(reminder.get(0).getHour() + ":" + reminder.get(0).getMinutes());
+            quantity.setText("Take " + reminder.get(0).getQuantity());
+            timePicker2.setText(reminder.get(1).getHour() + ":" + reminder.get(1).getMinutes());
+            quantity2.setText("Take " + reminder.get(1).getQuantity());
+            timePicker3.setText(reminder.get(2).getHour() + ":" + reminder.get(2).getMinutes());
+            quantity3.setText("Take " + reminder.get(2).getQuantity());
+            timePicker4.setText(reminder.get(3).getHour() + ":" + reminder.get(3).getMinutes());
+            quantity4.setText("Take " + reminder.get(3).getQuantity());
+            timePicker5.setText(reminder.get(4).getHour() + ":" + reminder.get(4).getMinutes());
+            quantity5.setText("Take " + reminder.get(4).getQuantity());
+            timePicker6.setText(reminder.get(5).getHour() + ":" + reminder.get(5).getMinutes());
+            quantity6.setText("Take " + reminder.get(5).getQuantity());
+            timePicker7.setText(reminder.get(6).getHour() + ":" + reminder.get(6).getMinutes());
+            quantity7.setText("Take " + reminder.get(6).getQuantity());
+            timePicker8.setText(reminder.get(7).getHour() + ":" + reminder.get(7).getMinutes());
+            quantity8.setText("Take " + reminder.get(7).getQuantity());
+            timePicker9.setText(reminder.get(8).getHour() + ":" + reminder.get(8).getMinutes());
+            quantity9.setText("Take " + reminder.get(8).getQuantity());
+            timePicker10.setText(reminder.get(9).getHour() + ":" + reminder.get(9).getMinutes());
+            quantity10.setText("Take " + reminder.get(9).getQuantity());
+            timePicker11.setText(reminder.get(10).getHour() + ":" + reminder.get(10).getMinutes());
+            quantity11.setText("Take " + reminder.get(10).getQuantity());
+            timePicker12.setText(reminder.get(11).getHour() + ":" + reminder.get(11).getMinutes());
+            quantity12.setText("Take " + reminder.get(11).getQuantity());
         }
 
     }

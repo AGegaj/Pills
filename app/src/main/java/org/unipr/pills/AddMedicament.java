@@ -2,9 +2,11 @@ package org.unipr.pills;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -235,8 +237,21 @@ public class AddMedicament extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent main = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(main);
+                new AlertDialog.Builder(AddMedicament.this)
+                        .setTitle("Quit")
+                        .setMessage("Are you sure you want to quit without saving?")
+
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent main = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(main);
+
+                            }
+                        })
+
+                        .setNegativeButton(android.R.string.no, null)
+                        .show();
+
             }
         });
 
@@ -739,6 +754,9 @@ public class AddMedicament extends AppCompatActivity {
             for (int i = 0; i < reminderRegisterList.size(); i++)
                 db.addReminder(reminderRegisterList.get(i), pillRegister.getPillName());
             db.close();
+
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
 
             Toast.makeText(getApplicationContext(), "Saved!", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {

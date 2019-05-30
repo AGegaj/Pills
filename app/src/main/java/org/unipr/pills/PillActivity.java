@@ -1,7 +1,9 @@
 package org.unipr.pills;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -104,8 +106,24 @@ public class PillActivity extends AppCompatActivity {
 
             case R.id.action_delete:
                 try {
-                    db.delete(pillId);
-                    startActivity(new Intent(this, MainActivity.class));
+                    new AlertDialog.Builder(this)
+                            .setTitle("Delete")
+                            .setMessage("Are you sure you want to delete this pill?")
+
+
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Continue with delete operation
+                                    db.delete(pillId);
+                                    goToMainActivity();
+
+                                }
+                            })
+
+                            // A null listener allows the button to dismiss the dialog and take no further action.
+                            .setNegativeButton(android.R.string.no, null)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
 
                 } catch (Exception e) {
 
@@ -120,6 +138,11 @@ public class PillActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+
+    }
+
+    private void goToMainActivity() {
+        startActivity(new Intent(this, MainActivity.class));
 
     }
 
