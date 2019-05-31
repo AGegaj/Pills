@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".AddMedicament">
+    tools:context=".activity.AddMedicament">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,7 +42,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:text="Medicament Name"
+                    android:text="@string/txtMedName"
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
@@ -156,7 +156,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:text="Treatment Schedule"
+                    android:text="@string/txtScheduleTitle"
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
@@ -170,7 +170,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="15dp"
-                        android:text="Start at:"
+                        android:text="@string/txtStartAt"
                         android:textColor="@android:color/black"
                         android:textStyle="bold" />
 
@@ -200,7 +200,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="15dp"
-                    android:text="Duration"
+                    android:text="@string/txtDurationTitle"
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
@@ -215,7 +215,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:text="Continuous"
+                        android:text="@string/txtRdbContinuous"
                         android:textColor="#808080"
                         android:textSize="16sp" />
 
@@ -226,7 +226,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:checked="false"
-                        android:text="Number of days"
+                        android:text="@string/txtRdbNumberOfDays"
                         android:textColor="#808080"
                         android:textSize="16sp" />
 
@@ -261,7 +261,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="15dp"
-                    android:text="Frequency"
+                    android:text="@string/txtFrequencyTitle"
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
@@ -276,7 +276,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:text="Every day"
+                        android:text="@string/txtRdbEveryDay"
                         android:textColor="#808080"
                         android:textSize="16sp" />
 
@@ -285,7 +285,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="false"
-                        android:text="Specific days of week"
+                        android:text="@string/txtRdbSpecDays"
                         android:textColor="#808080"
                         android:textSize="16sp" />
                     <TextView
@@ -306,7 +306,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:checked="false"
-                        android:text="Days Interval"
+                        android:text="@string/txtRdbIntervalDays"
                         android:textColor="#808080"
                         android:textSize="16sp" />
 

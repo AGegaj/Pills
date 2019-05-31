@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Barnat</string>
+    <string name="title_home">Sot</string>
+    <string name="title_pillbox">Kutia e Barnave</string>
+    <string name="btnAdd">RUAJ</string>
+    <string name="hint_name">Shkruaj emrin e barnes ose ingredientin</string>
+    <string name="err_msg_name">Emri nuk duhet të jetë i zbrazët!</string>
+    <string name="edit">edito</string>
+    <string name="deleteIcon">fshij</string>
+    <string name="txtMedName">Emri Medikamentit</string>
+    <string name="txtScheduleTitle">Orari i Përdorimit</string>
+    <string name="txtStartAt">Fillo me:</string>
+    <string name="txtDurationTitle">Kohëzgjatja</string>
+    <string name="txtRdbContinuous">E Vazhdueshme</string>
+    <string name="txtRdbNumberOfDays">Numri i ditëve</string>
+    <string name="txtFrequencyTitle">Frekuenca</string>
+    <string name="txtRdbEveryDay">Çdo ditë</string>
+    <string name="txtRdbSpecDays">Ditë specifike të javës</string>
+    <string name="txtRdbIntervalDays">Intervali Ditor</string>
+    <string name="txtSetDaysIntervalTitle">Cakto intervalin ditor</string>
+    <string name="CANCEL">ANULO</string>
+    <string name="SET">VENDOS</string>
+    <string name="txtSelectQuantityTitle">Zgjedh sasinë</string>
+    <string name="OK">OK</string>
+    <string name="txtActiveTitle">Barnat Aktive</string>
+    <string name="setNumberOfDaysTitle">Cakto numrin e dit♪7ve</string>
+    <string name="pickDaysTitle">Zgjedh ditët</string>
+    <string name="txtSunday">E Diel</string>
+    <string name="txtMonday">E Hënë</string>
+    <string name="txtTuesday">E Martë</string>
+    <string name="txtWednesday">E Mërkurë</string>
+    <string name="txtThursday">E Enjte</string>
+    <string name="txtFriday">E Premtë</string>
+    <string name="txtSaturday">E Shtunë</string>
+    <string name="txtRemindersTitle">Lajmërimet</string>
+    <string name="txtPillsUnit"></string>
+    <string name="txtBtnToday">Sot</string>
+    <string name="txtOnToolbar">në këtë ditë</string>
+    <string name="addMedicamentTitle">Shto Medikament</string>
+    <string name="quit">Largohu</string>
+    <string name="quitMessage">A jeni i sigurt që dëshironi të largoheni pa i ruajtur?</string>
+    <string name="editt">Edito</string>
+
+
+
+
+
+    <string-array name="android_dropdown_reminders">
+        <item>Një herë në ditë</item>
+        <item>Dy herë në ditë</item>
+        <item>3 herë në ditë</item>
+        <item>4 herë në ditë</item>
+        <item>5 herë në ditë</item>
+        <item>6 herë në ditë</item>
+        <item>7 herë në ditë</item>
+        <item>8 herë në ditë</item>
+        <item>9 herë në ditë</item>
+        <item>10 herë në ditë</item>
+        <item>11 herë në ditë</item>
+        <item>12 herë në ditë</item>
+    </string-array>
+</resources>

@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="Reminders"
+            android:text="@string/txtRemindersTitle"
             android:textColor="@android:color/black"
             android:textStyle="bold" />
 
@@ -68,7 +68,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="5dp"
                 android:background="@android:color/transparent"
-                android:text="pill(s)"
+                android:text="@string/txtPillsUnit"
                 android:textColor="@color/colorPrimary"
                 android:textSize="20sp" />
 
@@ -108,7 +108,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="5dp"
                 android:background="@android:color/transparent"
-                android:text="pill(s)"
+                android:text="@string/txtPillsUnit"
                 android:textColor="@color/colorPrimary"
                 android:textSize="20sp" />
 
@@ -148,7 +148,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="5dp"
                 android:background="@android:color/transparent"
-                android:text="pill(s)"
+                android:text="@string/txtPillsUnit"
                 android:textColor="@color/colorPrimary"
                 android:textSize="20sp" />
 
@@ -189,7 +189,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="5dp"
                 android:background="@android:color/transparent"
-                android:text="pill(s)"
+                android:text="@string/txtPillsUnit"
                 android:textColor="@color/colorPrimary"
                 android:textSize="20sp" />
 
@@ -229,7 +229,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="5dp"
                 android:background="@android:color/transparent"
-                android:text="pill(s)"
+                android:text="@string/txtPillsUnit"
                 android:textColor="@color/colorPrimary"
                 android:textSize="20sp" />
 
@@ -269,7 +269,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="5dp"
                 android:background="@android:color/transparent"
-                android:text="pill(s)"
+                android:text="@string/txtPillsUnit"
                 android:textColor="@color/colorPrimary"
                 android:textSize="20sp" />
 
@@ -309,7 +309,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="5dp"
                 android:background="@android:color/transparent"
-                android:text="pill(s)"
+                android:text="@string/txtPillsUnit"
                 android:textColor="@color/colorPrimary"
                 android:textSize="20sp" />
 
@@ -349,7 +349,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="5dp"
                 android:background="@android:color/transparent"
-                android:text="pill(s)"
+                android:text="@string/txtPillsUnit"
                 android:textColor="@color/colorPrimary"
                 android:textSize="20sp" />
 
@@ -389,7 +389,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="5dp"
                 android:background="@android:color/transparent"
-                android:text="pill(s)"
+                android:text="@string/txtPillsUnit"
                 android:textColor="@color/colorPrimary"
                 android:textSize="20sp" />
 
@@ -429,7 +429,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="5dp"
                 android:background="@android:color/transparent"
-                android:text="pill(s)"
+                android:text="@string/txtPillsUnit"
                 android:textColor="@color/colorPrimary"
                 android:textSize="20sp" />
 
@@ -469,7 +469,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="5dp"
                 android:background="@android:color/transparent"
-                android:text="pill(s)"
+                android:text="@string/txtPillsUnit"
                 android:textColor="@color/colorPrimary"
                 android:textSize="20sp" />
 
@@ -509,7 +509,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="5dp"
                 android:background="@android:color/transparent"
-                android:text="pill(s)"
+                android:text="@string/txtPillsUnit"
                 android:textColor="@color/colorPrimary"
                 android:textSize="20sp" />
 
