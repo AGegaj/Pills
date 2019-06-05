@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/sq"
+        android:icon="@drawable/sq"
+        android:title="ALBANIAN"/>
+    <item
+        android:id="@+id/en"
+        android:icon="@drawable/en"
+        android:title="ENGLISH"/>
+</menu>

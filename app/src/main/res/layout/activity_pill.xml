@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -39,7 +39,7 @@
                 android:layout_height="40dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
-                app:civ_circle_background_color="@color/colorAccent"
+                app:civ_circle_background_color="@color/circle"
                 android:src="@drawable/tablet"/>
 
             <TextView
@@ -119,6 +119,28 @@
                     android:textStyle="bold"
                     android:textColor="@android:color/black"/>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtDescriptionTitle"
+                android:text="@string/Description"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="25dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtDescription"
+                    android:text="@string/txtInfoPill"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"/>
 
             </LinearLayout>
 
@@ -130,4 +152,4 @@
     </LinearLayout>
 
 
-</RelativeLayout>
+</ScrollView>

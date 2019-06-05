@@ -22,7 +22,7 @@
     <string name="CANCEL">ANULO</string>
     <string name="SET">VENDOS</string>
     <string name="txtSelectQuantityTitle">Zgjedh sasinë</string>
-    <string name="OK">OK</string>
+    <string name="OK">PO</string>
     <string name="txtActiveTitle">Barnat Aktive</string>
     <string name="setNumberOfDaysTitle">Cakto numrin e dit♪7ve</string>
     <string name="pickDaysTitle">Zgjedh ditët</string>
@@ -34,16 +34,19 @@
     <string name="txtFriday">E Premtë</string>
     <string name="txtSaturday">E Shtunë</string>
     <string name="txtRemindersTitle">Lajmërimet</string>
-    <string name="txtPillsUnit"></string>
+    <string name="txtPillsUnit">pilulë(a)</string>
     <string name="txtBtnToday">Sot</string>
     <string name="txtOnToolbar">në këtë ditë</string>
     <string name="addMedicamentTitle">Shto Medikament</string>
     <string name="quit">Largohu</string>
     <string name="quitMessage">A jeni i sigurt që dëshironi të largoheni pa i ruajtur?</string>
     <string name="editt">Edito</string>
-
-
-
+    <string name="Description">Përshkrimi:</string>
+    <string name="txtInfoPill">Nuk ka informata rreth kësaj barne.</string>
+    <string name="delete">Fshij</string>
+    <string name="deleteMsg">A jeni i sigurt që dëshironi të fshini këtë barnë?</string>
+    <string name="notificationTitle">Koha e Barnave!</string>
+    <string name="notificationText">Është koha për të pirë barnat. Kujdesuni për shëndetin!</string>
 
 
     <string-array name="android_dropdown_reminders">
@@ -60,4 +63,5 @@
         <item>11 herë në ditë</item>
         <item>12 herë në ditë</item>
     </string-array>
+    <string name="txtInActiveTitle">Barnat joaktive</string>
 </resources>
