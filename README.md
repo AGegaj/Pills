@@ -1,2 +1,2 @@
 # Pills
-Medication management android application.
+Medication management and reminder android application.
