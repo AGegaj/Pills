@@ -1,8 +1,10 @@
 package org.unipr.pills.activity;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,9 +15,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.unipr.pills.R;
 import org.unipr.pills.adapter.ReminderAdapter;
 import org.unipr.pills.database.Database;
@@ -31,7 +37,7 @@ public class PillActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ReminderAdapter adapter;
     RecyclerView.LayoutManager layoutManager;
-    TextView txtPillReminderTime;
+    TextView txtPillReminderTime, txtDescription;
 
     private ArrayList<String> pillReminderData = new ArrayList<String>();
     private CircleImageView image;
@@ -39,7 +45,9 @@ public class PillActivity extends AppCompatActivity {
     private TextView txReminder, txDuration, txStart;
     private Database db;
     Integer pillId;
-    String pillName;
+    String pillName, description;
+    String url = "https://en.wikipedia.org/wiki/";
+
 
 
     @Override
@@ -53,6 +61,7 @@ public class PillActivity extends AppCompatActivity {
         txReminder = findViewById(R.id.txtPillReminder);
         txDuration = findViewById(R.id.txtPillDuration);
         txStart = findViewById(R.id.fromSchedule);
+        txtDescription = findViewById(R.id.txtDescription);
 
         txtPillReminderTime = findViewById(R.id.txtPillReminderTime);
         recyclerView = findViewById(R.id.recycler_view_reminders);
@@ -60,6 +69,7 @@ public class PillActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         String pillNam = extras.getString("pillName");
+        url += pillNam;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         try {
             db = new Database(this);
@@ -74,6 +84,8 @@ public class PillActivity extends AppCompatActivity {
             txDuration.setText(pill.getFrequency());
             txStart.setText("From " + dateFormat.format(pill.getStart()));
 
+            PillDescription pillDescription = new PillDescription();
+            pillDescription.execute();
 
         } catch (Exception e) {
             System.err.println(e);
@@ -110,11 +122,11 @@ public class PillActivity extends AppCompatActivity {
             case R.id.action_delete:
                 try {
                     new AlertDialog.Builder(this)
-                            .setTitle("Delete")
-                            .setMessage("Are you sure you want to delete this pill?")
+                            .setTitle(R.string.delete)
+                            .setMessage(R.string.deleteMsg)
 
 
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            .setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     db.delete(pillId);
                                     goToMainActivity();
@@ -122,7 +134,7 @@ public class PillActivity extends AppCompatActivity {
                                 }
                             })
 
-                            .setNegativeButton(android.R.string.no, null)
+                            .setNegativeButton(R.string.CANCEL, null)
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .show();
 
@@ -162,4 +174,42 @@ public class PillActivity extends AppCompatActivity {
         }
     }
 
+    public class PillDescription extends AsyncTask<Void, Void, Void> {
+        ProgressDialog progressDialog = new ProgressDialog(PillActivity.this);
+
+        @Override
+        protected void onPreExecute(){
+            super.onPreExecute();
+            progressDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try{
+                Document document = Jsoup.connect(url).userAgent(
+                        "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)")
+                        .get();
+
+                Element paragraph = document.select("p").first();
+                if(paragraph.text().isEmpty())
+                    paragraph=document.select("p").get(1);
+
+                description = paragraph.text().replaceAll("\\[[0-9]+\\]", "");
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid){
+            super.onPostExecute(aVoid);
+            if(description == null || description.isEmpty())
+                txtDescription.setText(R.string.txtInfoPill);
+            else
+                txtDescription.setText(description);
+
+            progressDialog.cancel();
+        }
+    }
 }

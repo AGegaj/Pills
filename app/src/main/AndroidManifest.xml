@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.unipr.pills">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,16 +14,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UpdateMedicament"></activity>
-        <activity android:name=".PillActivity" />
-        <activity android:name=".AddMedicament" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".notification.RepeatingActivity" />
+        <activity android:name=".activity.UpdateMedicament" />
+        <activity android:name=".activity.PillActivity" />
+        <activity android:name=".activity.AddMedicament" />
+
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".notification.DisplayNotification"
+            android:label="Notification Demo"
+            android:parentActivityName=".activity.MainActivity"
+            android:uiOptions="splitActionBarWhenNarrow">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+            <intent-filter>
+                <action android:name="org.unipr.pills.notification.DisplayNotification" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <receiver android:name=".notification.NotificationReciever"/>
+
     </application>
 
 </manifest>

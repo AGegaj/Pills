@@ -146,9 +146,9 @@ public class UpdateMedicament extends AppCompatActivity {
         pId = extras.getInt("pillId");
 
 
-        imgCapsule.setBorderColor(getColor(R.color.colorAccent));
-        imgCapsule.setBorderWidth(3);
-        imgCapsule.setCircleBackgroundColor(getColor(R.color.colorAccent));
+        imgCapsule.setBorderColor(getColor(R.color.circle));
+        imgCapsule.setBorderWidth(25);
+        imgCapsule.setCircleBackgroundColor(getColor(R.color.circle));
         photoId = getResources().getIdentifier("capsule",
                 "drawable", getPackageName());
 
@@ -301,9 +301,9 @@ public class UpdateMedicament extends AppCompatActivity {
     public void setBorder(CircleImageView img) {
         switch (img.getId()) {
             case R.id.imgCapsule:
-                imgCapsule.setBorderColor(getColor(R.color.colorAccent));
-                imgCapsule.setBorderWidth(3);
-                imgCapsule.setCircleBackgroundColor(getColor(R.color.colorAccent));
+                imgCapsule.setBorderColor(getColor(R.color.circle));
+                imgCapsule.setBorderWidth(25);
+                imgCapsule.setCircleBackgroundColor(getColor(R.color.circle));
                 imgTablet.setBorderWidth(0);
                 imgLiquid.setBorderWidth(0);
                 imgInjection.setBorderWidth(0);
@@ -315,9 +315,9 @@ public class UpdateMedicament extends AppCompatActivity {
                 break;
 
             case R.id.imgTablet:
-                imgTablet.setBorderColor(getColor(R.color.colorAccent));
-                imgTablet.setBorderWidth(3);
-                imgTablet.setCircleBackgroundColor(getColor(R.color.colorAccent));
+                imgTablet.setBorderColor(getColor(R.color.circle));
+                imgTablet.setBorderWidth(25);
+                imgTablet.setCircleBackgroundColor(getColor(R.color.circle));
                 imgCapsule.setBorderWidth(0);
                 imgLiquid.setBorderWidth(0);
                 imgInjection.setBorderWidth(0);
@@ -329,9 +329,9 @@ public class UpdateMedicament extends AppCompatActivity {
                 break;
 
             case R.id.imgInjection:
-                imgInjection.setBorderColor(getColor(R.color.colorAccent));
-                imgInjection.setBorderWidth(3);
-                imgInjection.setCircleBackgroundColor(getColor(R.color.colorAccent));
+                imgInjection.setBorderColor(getColor(R.color.circle));
+                imgInjection.setBorderWidth(25);
+                imgInjection.setCircleBackgroundColor(getColor(R.color.circle));
                 imgTablet.setBorderWidth(0);
                 imgLiquid.setBorderWidth(0);
                 imgCapsule.setBorderWidth(0);
@@ -343,9 +343,9 @@ public class UpdateMedicament extends AppCompatActivity {
                 break;
 
             case R.id.imgLiquid:
-                imgLiquid.setBorderColor(getColor(R.color.colorAccent));
-                imgLiquid.setBorderWidth(3);
-                imgLiquid.setCircleBackgroundColor(getColor(R.color.colorAccent));
+                imgLiquid.setBorderColor(getColor(R.color.circle));
+                imgLiquid.setBorderWidth(25);
+                imgLiquid.setCircleBackgroundColor(getColor(R.color.circle));
                 imgTablet.setBorderWidth(0);
                 imgCapsule.setBorderWidth(0);
                 imgInjection.setBorderWidth(0);

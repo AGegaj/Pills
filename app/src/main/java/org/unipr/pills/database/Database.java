@@ -6,12 +6,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import org.unipr.pills.model.PillBoxDataResult;
 import org.unipr.pills.model.PillDataResult;
+import org.unipr.pills.model.PillHomeDataResult;
 import org.unipr.pills.model.PillRegister;
 import org.unipr.pills.model.ReminderDataResult;
 import org.unipr.pills.model.ReminderRegister;
@@ -124,7 +127,7 @@ public class Database extends SQLiteOpenHelper {
         values.put(reminder_minutes, reminderRegister.getMinutes());
         values.put(reminder_quantity, reminderRegister.getQuantity());
 
-        db.update(TABLE_REMINDER,  values, "id = ? AND Pill_id = ?", new String[] { Integer.toString(id), Integer.toString(pId)});
+        db.update(TABLE_REMINDER, values, "id = ? AND Pill_id = ?", new String[]{Integer.toString(id), Integer.toString(pId)});
         db.close();
     }
 
@@ -133,7 +136,7 @@ public class Database extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        db.delete(TABLE_REMINDER,  "Pill_id = ?", new String[] { Integer.toString(pId)});
+        db.delete(TABLE_REMINDER, "Pill_id = ?", new String[]{Integer.toString(pId)});
         db.close();
     }
 
@@ -203,7 +206,7 @@ public class Database extends SQLiteOpenHelper {
         values.put(pill_status, pillRegister.getStatus());
         values.put(pill_reminders, pillRegister.getReminder());
 
-        db.update(TABLE_PILL,  values, "id = ?", new String[] { Integer.toString(id)});
+        db.update(TABLE_PILL, values, "id = ?", new String[]{Integer.toString(id)});
         db.close();
     }
 
@@ -249,6 +252,39 @@ public class Database extends SQLiteOpenHelper {
 
         cursor.close();
         db.close();
+        return pills;
+    }
+
+    public ArrayList<PillHomeDataResult> getPills() {
+        ArrayList<PillHomeDataResult> pills = new ArrayList<>();
+
+        String selectQuery = "select * from pill  p inner join reminder r on  p.id=r.pill_id where  p.status='ACTIVE' order by r.hour";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        try {
+
+
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery(selectQuery, null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    PillHomeDataResult pillHomeDataResult = new PillHomeDataResult();
+                    pillHomeDataResult.setId(Integer.parseInt(cursor.getString(0)));
+                    pillHomeDataResult.setPillName(cursor.getString(1));
+                    pillHomeDataResult.setPhotoId(Integer.parseInt(cursor.getString(2)));
+                    pillHomeDataResult.setStart(dateFormat.parse(cursor.getString(3)));
+                    pillHomeDataResult.setDuration(cursor.getString(4));
+                    pillHomeDataResult.setFrequency(cursor.getString(5));
+                    pillHomeDataResult.setTime(cursor.getString(9)+":"+cursor.getString(10));
+                    pills.add(pillHomeDataResult);
+                } while (cursor.moveToNext());
+            }
+
+            cursor.close();
+            db.close();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return pills;
     }
 

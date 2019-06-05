@@ -44,8 +44,7 @@ public class PillboxAdapter extends RecyclerView.Adapter<PillboxAdapter.ViewHold
     public void onBindViewHolder(@NonNull PillboxAdapter.ViewHolder holder, final int position) {
         holder.tvPillName.setText(pillNameData.get(position));
         holder.imgPillPhoto.setImageResource(pillPhotoData.get(position));
-        holder.imgPillPhoto.setBorderColor(context.getColor(R.color.colorAccent));
-
+        holder.imgPillPhoto.setCircleBackgroundColor(context.getColor(R.color.circle));
         holder.pillbox_items_parent_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

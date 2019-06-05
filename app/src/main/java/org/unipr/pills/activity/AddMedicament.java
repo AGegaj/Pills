@@ -2,11 +2,19 @@ package org.unipr.pills.activity;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -45,7 +53,13 @@ import org.unipr.pills.fragment.QuantityFragment;
 import org.unipr.pills.fragment.TimePickerFragment;
 import org.unipr.pills.model.PillRegister;
 import org.unipr.pills.model.ReminderRegister;
+import org.unipr.pills.notification.AlarmReceiver;
+import org.unipr.pills.notification.DisplayNotification;
 import org.unipr.pills.notification.NotificationReciever;
+import org.unipr.pills.notification.NotificationScheduler;
+
+import static org.unipr.pills.notification.NotificationScheduler.DAILY_REMINDER_REQUEST_CODE;
+import static org.unipr.pills.notification.NotificationScheduler.cancelReminder;
 
 public class AddMedicament extends AppCompatActivity {
 
@@ -77,7 +91,9 @@ public class AddMedicament extends AppCompatActivity {
     int count;
     Calendar calendar;
     private CircleImageView imgCapsule, imgTablet, imgLiquid, imgInjection;
+    int NotID = 1;
 
+    public static String id1 = "test_channel_01";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,9 +159,9 @@ public class AddMedicament extends AppCompatActivity {
         daysnum = findViewById(R.id.daysnum);
 
 
-        imgCapsule.setBorderColor(getColor(R.color.colorAccent));
-        imgCapsule.setBorderWidth(3);
-        imgCapsule.setCircleBackgroundColor(getColor(R.color.colorAccent));
+        imgCapsule.setBorderColor(getColor(R.color.circle));
+        imgCapsule.setBorderWidth(25);
+        imgCapsule.setCircleBackgroundColor(getColor(R.color.circle));
         photoId = getResources().getIdentifier("capsule",
                 "drawable", getPackageName());
 
@@ -502,9 +518,9 @@ public class AddMedicament extends AppCompatActivity {
     public void setBorder(CircleImageView img) {
         switch (img.getId()) {
             case R.id.imgCapsule:
-                imgCapsule.setBorderColor(getColor(R.color.colorAccent));
-                imgCapsule.setBorderWidth(3);
-                imgCapsule.setCircleBackgroundColor(getColor(R.color.colorAccent));
+                imgCapsule.setBorderColor(getColor(R.color.circle));
+                imgCapsule.setBorderWidth(25);
+                imgCapsule.setCircleBackgroundColor(getColor(R.color.circle));
                 imgTablet.setBorderWidth(0);
                 imgLiquid.setBorderWidth(0);
                 imgInjection.setBorderWidth(0);
@@ -516,9 +532,9 @@ public class AddMedicament extends AppCompatActivity {
                 break;
 
             case R.id.imgTablet:
-                imgTablet.setBorderColor(getColor(R.color.colorAccent));
-                imgTablet.setBorderWidth(3);
-                imgTablet.setCircleBackgroundColor(getColor(R.color.colorAccent));
+                imgTablet.setBorderColor(getColor(R.color.circle));
+                imgTablet.setBorderWidth(25);
+                imgTablet.setCircleBackgroundColor(getColor(R.color.circle));
                 imgCapsule.setBorderWidth(0);
                 imgLiquid.setBorderWidth(0);
                 imgInjection.setBorderWidth(0);
@@ -530,9 +546,9 @@ public class AddMedicament extends AppCompatActivity {
                 break;
 
             case R.id.imgInjection:
-                imgInjection.setBorderColor(getColor(R.color.colorAccent));
-                imgInjection.setBorderWidth(3);
-                imgInjection.setCircleBackgroundColor(getColor(R.color.colorAccent));
+                imgInjection.setBorderColor(getColor(R.color.circle));
+                imgInjection.setBorderWidth(25);
+                imgInjection.setCircleBackgroundColor(getColor(R.color.circle));
                 imgTablet.setBorderWidth(0);
                 imgLiquid.setBorderWidth(0);
                 imgCapsule.setBorderWidth(0);
@@ -544,9 +560,9 @@ public class AddMedicament extends AppCompatActivity {
                 break;
 
             case R.id.imgLiquid:
-                imgLiquid.setBorderColor(getColor(R.color.colorAccent));
-                imgLiquid.setBorderWidth(3);
-                imgLiquid.setCircleBackgroundColor(getColor(R.color.colorAccent));
+                imgLiquid.setBorderColor(getColor(R.color.circle));
+                imgLiquid.setBorderWidth(25);
+                imgLiquid.setCircleBackgroundColor(getColor(R.color.circle));
                 imgTablet.setBorderWidth(0);
                 imgCapsule.setBorderWidth(0);
                 imgInjection.setBorderWidth(0);
@@ -734,9 +750,9 @@ public class AddMedicament extends AppCompatActivity {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 
             if (scheduleDate.getText().equals("Today")) {
-                    Date date = new Date();
-                    String modifiedDate = formatter.format(date);
-                    startDate = formatter.parse(modifiedDate);
+                Date date = new Date();
+                String modifiedDate = formatter.format(date);
+                startDate = formatter.parse(modifiedDate);
             } else
                 startDate = formatter.parse(scheduleDate.getText().toString());
 
@@ -766,11 +782,13 @@ public class AddMedicament extends AppCompatActivity {
             db.addPill(pillRegister);
 
             List<ReminderRegister> reminderRegisterList = getReminders(count);
-            for (int i = 0; i < reminderRegisterList.size(); i++)
+            for (int i = 0; i < reminderRegisterList.size(); i++) {
                 db.addReminder(reminderRegisterList.get(i), pillRegister.getPillName());
+                setReminder(reminderRegisterList.get(i).getHour(), reminderRegisterList.get(i).getMinutes(), frequency);
+            }
             db.close();
 
-            setNotification();
+
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
 
@@ -781,16 +799,39 @@ public class AddMedicament extends AppCompatActivity {
 
     }
 
-    private void setNotification() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 9);
-        calendar.set(Calendar.MINUTE, 52);
-        Intent intent = new Intent(this, NotificationReciever.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
+    public void setReminder(Integer hour, Integer minutes, String frequency) {
+        //---use the AlarmManager to trigger an alarm---
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+        //---get current date and time---
+        Calendar calendar = Calendar.getInstance();
+
+
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minutes);
+        calendar.set(Calendar.SECOND, 0);
+
+        //---PendingIntent to launch activity when the alarm triggers-
+
+        //Intent notificationIntent = new Intent(getApplicationContext(), receiveActivity.class);
+        Intent notificationIntent = new Intent(getApplicationContext(), DisplayNotification.class);
+        notificationIntent.putExtra("NotifID", NotID);
+
+        PendingIntent contentIntent = PendingIntent.getActivity(AddMedicament.this, NotID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Log.i("MainActivity", "Set alarm, I hope");
+
+
+        //---sets the alarm to trigger---
+        if (frequency.equals("Everyday"))
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, contentIntent);
+        else if (frequency.split(" ")[0].equals("every")) {
+            int freq = Integer.parseInt(frequency.split(" ")[1]);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), freq * AlarmManager.INTERVAL_DAY, contentIntent);
+
+        }
+        NotID++;
     }
+
 
     private boolean validateName() {
         if (inputName.getText().toString().trim().isEmpty()) {

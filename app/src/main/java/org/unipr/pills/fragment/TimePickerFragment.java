@@ -37,7 +37,11 @@ public class TimePickerFragment extends DialogFragment
     }
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        timePicker.setText(hourOfDay+":"+minute);
+        if(minute==0)
+            timePicker.setText(hourOfDay+":"+minute+"0");
+        else
+            timePicker.setText(hourOfDay+":"+minute);
+
 
     }
 }

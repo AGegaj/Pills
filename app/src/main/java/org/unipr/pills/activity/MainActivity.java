@@ -14,14 +14,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.DatePicker;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,6 +35,7 @@ import org.unipr.pills.database.Database;
 import de.hdodenhof.circleimageview.CircleImageView;
 import org.unipr.pills.fragment.HomeFragment;
 import org.unipr.pills.fragment.PillboxFragment;
+import org.unipr.pills.model.PillHomeDataResult;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -63,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     CircleImageView imgPillHome;
     TextView txtPillTime;
 
-    private Database db;
+    Database db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +91,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         setSupportActionBar(toolbar);
 
         Date date = Calendar.getInstance().getTime();
-        initPillList(date.toString());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+
+        initPillList(formatter.format(date));
         recyclerView = findViewById(R.id.recycler_view_home);
         adapter = new PillHomeAdapter(MainActivity.this, pillPhotoData, pillNameData, pillTime);
         recyclerView.setAdapter(adapter);
@@ -103,8 +108,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setLocale("sq");
-//                selectDate();
+                selectDate();
             }
         });
 
@@ -194,21 +198,65 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         pillTime.clear();
         pillPhotoData.clear();
 
-        pillPhotoData.add(2131230814);
-        pillNameData.add("Aspirin");
-        pillTime.add("08:00");
 
-        pillPhotoData.add(2131230814);
-        pillNameData.add("Insulin");
-        pillTime.add("12:15");
+        try {
+            db = new Database(this);
+            ArrayList<PillHomeDataResult> pillHomeDataResults = db.getPills();
+            for (PillHomeDataResult pill : pillHomeDataResults) {
+                if(pill.getFrequency().equals("Everyday")) {
+                    pillNameData.add(pill.getPillName());
+                    pillPhotoData.add(pill.getPhotoId());
+                    pillTime.add(pill.getTime());
+                }
+//                else if(pill.getFrequency().split(" ")[0].equals("every")){
+//                    Calendar c = Calendar.getInstance();
+//                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+//                    Calendar c1 = Calendar.getInstance();
+//                    c1.setTime(formatter.parse(pill.getStart().toString()));
+//                    c.setTime(formatter.parse(date));
+//                    while(true) {
+//                        c.add(Calendar.DAY_OF_MONTH, -2);
+//                        Log.d("Current Date", formatter.format(c.toString()));
+//                        Log.d("Pill date", formatter.format(pill.getStart().toString()));
+//                        if (c.compareTo(c1) == 0) {
+//                            pillNameData.add(pill.getPillName());
+//                            pillPhotoData.add(pill.getPhotoId());
+//                            pillTime.add(pill.getTime());
+//                            break;
+//                        }
+//                    }
+//
+//                }
+            }
 
-        pillPhotoData.add(2131230814);
-        pillNameData.add("Paracetamol");
-        pillTime.add("18:30");
+            db.close();
+        } catch (Exception e) {
+            System.err.println(e);
+        }
 
-        pillPhotoData.add(2131230814);
-        pillNameData.add("Andoll");
-        pillTime.add("20:30");
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu1,menu);
+
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId()==R.id.sq)
+        {
+            setLocale("sq");
+
+        }
+        if (item.getItemId()==R.id.en)
+        {
+            setLocale("en");
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
