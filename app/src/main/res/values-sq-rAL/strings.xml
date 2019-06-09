@@ -47,6 +47,8 @@
     <string name="deleteMsg">A jeni i sigurt që dëshironi të fshini këtë barnë?</string>
     <string name="notificationTitle">Koha e Barnave!</string>
     <string name="notificationText">Është koha për të pirë barnat. Kujdesuni për shëndetin!</string>
+    <string name="txtTapToAdd">Shtypeni për të regjistruar barnat.</string>
+
 
 
     <string-array name="android_dropdown_reminders">

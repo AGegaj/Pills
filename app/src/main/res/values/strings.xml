@@ -47,6 +47,7 @@
     <string name="deleteMsg">Are you sure you want to delete this pill?</string>
     <string name="notificationTitle">Pill Time!</string>
     <string name="notificationText">It is time to take the pill. Take care for your health!</string>
+    <string name="txtTapToAdd">Tap to add your medicine.</string>
 
     <string-array name="android_dropdown_reminders">
         <item>Once a day</item>

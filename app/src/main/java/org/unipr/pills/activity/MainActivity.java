@@ -62,9 +62,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private ArrayList<Integer> pillPhotoData = new ArrayList<Integer>();
     private ArrayList<String> pillTime = new ArrayList<String>();
 
-    TextView txtPillHomeName;
+    TextView txtPillHomeName, txtArrow;
     CircleImageView imgPillHome;
     TextView txtPillTime;
+    ImageView arrow;
 
     Database db;
 
@@ -88,6 +89,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         selectDate = findViewById(R.id.btnDate);
         imgSelectDate = findViewById(R.id.imgSelectDate);
         txtNoMeds = findViewById(R.id.txtNoMeds);
+        txtArrow = findViewById(R.id.txtArrow);
+        arrow = findViewById(R.id.imgArrow);
         setSupportActionBar(toolbar);
 
         Date date = Calendar.getInstance().getTime();
@@ -100,8 +103,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         layoutManager = new LinearLayoutManager(MainActivity.this);
         recyclerView.setLayoutManager(layoutManager);
 
-        if(pillNameData.isEmpty())
+        if(pillNameData.isEmpty()) {
             txtNoMeds.setText("No Meds");
+            arrow.setVisibility(View.VISIBLE);
+            txtArrow.setVisibility(View.VISIBLE);
+        }
 
         navigation.setOnNavigationItemSelectedListener(this);
 
